@@ -1,0 +1,36 @@
+/* =========================================
+   CSS TRANG THỂ LOẠI (DẠNG NÚT BẤM TRÒN)
+   ========================================= */
+.khung-the-loai {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 30px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+body.dark-mode .khung-the-loai {
+    background-color: #1e1e24;
+}
+.btn-the-loai {
+    padding: 8px 15px;
+    background-color: #f4f4f9;
+    color: #333;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 14px;
+}
+body.dark-mode .btn-the-loai {
+    background-color: #2a2a32;
+    color: #ddd;
+    border-color: #3a3a40;
+}
+.btn-the-loai:hover {
+    background-color: #e74c3c;
+    color: white;
+    border-color: #e74c3c;
+}

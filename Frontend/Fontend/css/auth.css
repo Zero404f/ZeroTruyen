@@ -1,0 +1,92 @@
+/* =========================================
+   GIAO DIỆN TRANG ĐĂNG NHẬP / ĐĂNG KÝ
+   ========================================= */
+
+.auth-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+}
+
+/* --- CHẾ ĐỘ SÁNG (MẶC ĐỊNH) --- */
+.auth-box {
+    background-color: #ffffff;
+    width: 450px;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    text-align: center;
+    color: #333;
+    border: 1px solid #ddd;
+}
+.auth-logo { width: 150px; margin-bottom: 10px; }
+.auth-box h2 { font-size: 24px; margin: 5px 0 5px 0; color: #333; }
+.auth-subtitle { font-size: 14px; color: #666; margin-bottom: 25px; }
+
+.auth-input-group { position: relative; margin-bottom: 15px; }
+.auth-input-icon { position: absolute; top: 50%; left: 15px; transform: translateY(-50%); color: #888; font-size: 14px; }
+.auth-input-icon-right { position: absolute; top: 50%; right: 15px; transform: translateY(-50%); color: #888; font-size: 14px; cursor: pointer; }
+
+.auth-input {
+    width: 100%;
+    padding: 12px 40px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-size: 15px;
+    color: #333;
+    outline: none;
+    transition: 0.3s;
+}
+.auth-input:focus { border-color: #f39c12; box-shadow: 0 0 5px rgba(243, 156, 18, 0.3); }
+
+.auth-forgot { text-align: right; font-size: 13px; font-weight: bold; margin-bottom: 20px; }
+.auth-forgot a { color: #333; text-decoration: none; }
+.auth-forgot a:hover { color: #f39c12; }
+
+.auth-captcha-fake { background-color: #f9f9f9; border: 1px solid #eee; border-radius: 5px; padding: 15px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.auth-captcha-fake .check-box { display: flex; align-items: center; gap: 10px; font-size: 15px; font-weight: bold; color: #333; }
+.auth-captcha-fake .check-box i { color: #2ecc71; font-size: 20px; }
+.auth-captcha-fake .logo-cf { text-align: right; font-size: 10px; color: #888; }
+.auth-captcha-fake .logo-cf span { display: block; color: #f39c12; font-size: 14px; font-weight: bold; }
+
+.auth-btn-submit { width: 100%; padding: 14px; background-color: #f39c12; color: #fff; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s; margin-bottom: 15px; }
+.auth-btn-submit:hover { background-color: #e67e22; }
+
+.auth-switch { color: #666; font-size: 14px; margin-bottom: 20px; }
+.auth-switch a { color: #333; font-weight: bold; text-decoration: none; }
+.auth-switch a:hover { color: #f39c12; }
+
+.auth-divider { display: flex; align-items: center; text-align: center; color: #888; margin-bottom: 20px; font-size: 14px; }
+.auth-divider::before, .auth-divider::after { content: ''; flex: 1; border-bottom: 1px solid #ddd; }
+.auth-divider span { padding: 0 15px; }
+
+.auth-btn-google { width: 100%; padding: 12px; background-color: transparent; color: #333; border: 1px solid #ccc; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s; display: flex; justify-content: center; align-items: center; gap: 10px; }
+.auth-btn-google:hover { background-color: #f4f4f9; }
+
+/* --- CHẾ ĐỘ TỐI (KHI BẤM NÚT TRÊN HEADER) --- */
+body.dark-mode .auth-box {
+    background-color: #1e1e24; /* Tệp với màu thẻ truyện của bạn */
+    border-color: #3a3a40;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    color: #fff;
+}
+body.dark-mode .auth-box h2 { color: #fff; }
+body.dark-mode .auth-subtitle { color: #ccc; }
+body.dark-mode .auth-input {
+    background-color: #121212;
+    border-color: #3a3a40;
+    color: #fff;
+}
+body.dark-mode .auth-input-icon, body.dark-mode .auth-input-icon-right { color: #888; }
+body.dark-mode .auth-forgot a, body.dark-mode .auth-switch a { color: #fff; }
+body.dark-mode .auth-forgot a:hover, body.dark-mode .auth-switch a:hover { color: #f39c12; }
+body.dark-mode .auth-captcha-fake { background-color: #2a2a32; border-color: #3a3a40; }
+body.dark-mode .auth-captcha-fake .check-box { color: #fff; }
+body.dark-mode .auth-divider { color: #aaa; }
+body.dark-mode .auth-divider::before, body.dark-mode .auth-divider::after { border-color: #3a3a40; }
+body.dark-mode .auth-btn-google { color: #fff; border-color: #3a3a40; }
+body.dark-mode .auth-btn-google:hover { background-color: #2a2a32; }
+

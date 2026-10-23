@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Quản lý Chương - ZeroTruyen</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
+</head>
+<body>
+    <aside class="admin-sidebar">
+        <div class="admin-logo">
+            <span style="font-size: 20px; color: #fff; font-weight: bold;">ZeroTruyen</span>
+            <span>ADMIN PANEL</span>
+        </div>
+        <ul class="admin-menu">
+            <li><a href="index.html"><i class="fas fa-book"></i> Quản lý Truyện</a></li>
+            <li class="active"><a href="quan-ly-nang-cao.html"><i class="fas fa-cogs"></i> Quản lý Nâng cao</a></li>
+            <li><a href="#" onclick="chuyenSangWebDocGia()"><i class="fas fa-external-link-alt"></i> Xem Web Độc giả</a></li>
+            <li><a href="#" style="color: #e74c3c;" onclick="dangXuatAdmin()"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a></li>
+        </ul>
+    </aside>
+
+    <main class="admin-main">
+        <header class="admin-header">
+            <h2>Quản lý Chương Truyện</h2>
+        </header>
+
+        <div style="margin-bottom: 20px; background: #fff; padding: 15px 25px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center;">
+            <h3 style="margin: 0; color: #2c3e50;">Truyện: <span id="tenTruyenHienTai" style="color: #e74c3c;">Đang tải...</span></h3>
+            <div>
+                <button class="btn-huy" onclick="window.location.href='quan-ly-nang-cao.html'" style="margin-right: 10px;"><i class="fas fa-arrow-left"></i> Quay lại</button>
+                <button class="btn-them-moi" onclick="moModalChuong()"><i class="fas fa-plus"></i> Đăng Chương Mới</button>
+            </div>
+        </div>
+
+        <div class="admin-table-container">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Tên Chương</th>
+                        <th>Ngày Đăng</th>
+                        <th>Lượt Xem</th>
+                        <th>Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody id="bangDanhSachChuong">
+                    <tr><td colspan="5" style="text-align: center;">Đang tải danh sách chương...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <div id="modalChuong" class="admin-modal">
+        <div class="admin-modal-content" style="width: 800px;">
+            <h3 id="modalTitleChuong">Đăng Chương Mới</h3>
+            <input type="hidden" id="adChuongId">
+            <div class="form-group-admin">
+                <label>Tên Chương (VD: Chapter 1)</label>
+                <input type="text" id="adTenChuong" placeholder="Nhập tên chương..." style="margin-bottom: 10px;">
+            </div>
+            <div class="form-group-admin">
+                <label>Tải lên các trang truyện (Có thể up nhiều lần, kéo thả để sắp xếp vị trí ảnh)</label>
+                <input type="file" id="adInputNhieuAnh" accept="image/*" multiple onchange="uploadNhieuAnh(event)" style="margin-top: 10px; display: block;">
+                <div class="preview-container" id="previewAnhChuong"></div>
+            </div>
+            <div class="modal-actions">
+                <button class="btn-huy" onclick="dongModalChuong()">Hủy</button>
+                <button class="btn-luu" onclick="luuChuong()">Lưu Chương</button>
+            </div>
+        </div>
+    </div>
+    <script src="js/quan-ly-chuong.js"></script>
+</body>
+</html>

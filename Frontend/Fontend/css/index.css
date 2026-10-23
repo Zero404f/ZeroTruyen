@@ -1,0 +1,381 @@
+/* --- LƯỚI CHỨA TRUYỆN (CSS GRID) --- */
+.danh-sach-truyen {
+    display: grid;
+    /* Tự động chia cột: Mỗi cột rộng tối thiểu 200px, nếu thừa chỗ sẽ tự tràn ra */
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px; /* Khoảng cách giữa các cuốn truyện */
+    margin-top: 20px;
+}
+/* --- THIẾT KẾ TỪNG CUỐN TRUYỆN (CARD) --- */
+.card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Đổ bóng nhẹ */
+    overflow: hidden;
+    text-align: center;
+    padding-bottom: 15px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+/* Hiệu ứng nảy lên khi người dùng rê chuột vào truyện */
+.card:hover {
+    transform: translateY(-8px); 
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}
+.card img {
+    width: 100%;
+    height: 280px; /* Cố định chiều cao ảnh để các truyện bằng nhau */
+    object-fit: cover; /* Cắt phần ảnh thừa mà không làm méo ảnh */
+}
+.card h3 {
+    font-size: 16px;
+    color: #1e1e24;
+    margin: 15px 10px 5px 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; /* Tự động thêm dấu ... nếu tên truyện quá dài */
+}
+.card p {
+    font-size: 14px;
+    color: #666;
+    margin: 0 0 10px 0;
+}
+.badge {
+    background-color: #e74c3c;
+    color: white;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+/* Đổi màu thẻ truyện (Card) cho Dark Mode */
+body.dark-mode .card {
+    background-color: #1e1e24; /* Nền card tối tệp với menu */
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.05); /* Đổ bóng sáng mờ */
+}
+
+/* Đổi màu chữ trong Card */
+body.dark-mode .card h3 {
+    color: #ffffff;
+}
+
+body.dark-mode .card p {
+    color: #cccccc; /* Màu chữ tác giả xám nhạt cho dễ đọc */
+}
+
+/* Giao diện Số chương và Đánh giá sao */
+.card .thong-tin-chuong {
+    font-size: 15px;
+    color: #888;
+    margin: 5px 0;
+    font-weight: 500;
+}
+
+.card .danh-gia-sao {
+    color: #f39c12; /* Màu vàng cam cho ngôi sao */
+    font-size: 14px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 3px;
+}
+
+.card .danh-gia-sao span {
+    color: #888;
+    margin-left: 5px;
+    font-weight: bold;
+}
+
+/* Chế độ tối */
+body.dark-mode .card .thong-tin-chuong,
+body.dark-mode .card .danh-gia-sao span {
+    color: #aaa;
+}
+
+/* =========================================
+   LAYOUT 2 CỘT (TRANG CHỦ)
+   ========================================= */
+.layout-trang-chu {
+    display: flex;
+    gap: 30px;
+    align-items: flex-start;
+}
+
+.sidebar-trai {
+    flex: 1; /* Chiếm 1 phần */
+    min-width: 250px;
+    max-width: 320px;
+    background: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+
+.noidung-phai {
+    flex: 3; /* Chiếm 3 phần */
+}
+
+/* --- SIDEBAR TRUYỆN HAY --- */
+.danh-sach-truyen-hay {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 15px;
+}
+.item-truyen-hay {
+    display: flex;
+    gap: 10px;
+    border-bottom: 1px dashed #eee;
+    padding-bottom: 10px;
+    text-decoration: none;
+    color: inherit;
+    transition: 0.2s;
+}
+.item-truyen-hay:last-child {
+    border-bottom: none;
+}
+.item-truyen-hay:hover {
+    transform: translateX(5px);
+}
+
+.item-truyen-hay img {
+    width: 65px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.info-truyen-hay {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.info-truyen-hay h4 {
+    margin: 0 0 5px 0;
+    font-size: 14px;
+    color: #333;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+.info-truyen-hay .sao {
+    color: #f39c12;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+/* --- NÚT XEM THÊM & PHÂN TRANG SỐ --- */
+.btn-xem-them {
+    width: 100%;
+    background: #f4f4f9;
+    color: #333;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+    margin-top: 10px;
+}
+.btn-xem-them:hover {
+    background: #e74c3c;
+    color: #fff;
+    border-color: #e74c3c;
+}
+
+.phan-trang-so {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 30px;
+    flex-wrap: wrap;
+}
+.phan-trang-so button {
+    padding: 8px 15px;
+    border: 1px solid #ddd;
+    background: #fff;
+    color: #333;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.2s;
+}
+.phan-trang-so button:hover {
+    background: #f39c12;
+    color: #fff;
+    border-color: #f39c12;
+}
+.phan-trang-so button.active {
+    background: #e74c3c;
+    color: #fff;
+    border-color: #e74c3c;
+}
+
+/* --- DARK MODE --- */
+body.dark-mode .sidebar-trai {
+    background: #1e1e24;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+}
+body.dark-mode .item-truyen-hay {
+    border-color: #3a3a40;
+}
+body.dark-mode .info-truyen-hay h4 {
+    color: #fff;
+}
+body.dark-mode .btn-xem-them {
+    background: #2a2a32;
+    color: #ccc;
+    border-color: #444;
+}
+body.dark-mode .btn-xem-them:hover {
+    background: #e74c3c;
+    color: #fff;
+    border-color: #e74c3c;
+}
+body.dark-mode .phan-trang-so button {
+    background: #2a2a32;
+    color: #ccc;
+    border-color: #444;
+}
+body.dark-mode .phan-trang-so button:hover {
+    background: #f39c12;
+    color: #fff;
+    border-color: #f39c12;
+}
+body.dark-mode .phan-trang-so button.active {
+    background: #e74c3c;
+    color: #fff;
+    border-color: #e74c3c;
+}
+
+/* =========================================
+   WIDGET TRUYỆN PHỔ BIẾN (TOP TRENDING)
+   ========================================= */
+.tabs-pho-bien {
+    display: flex;
+    background: #16161e; /* Màu nền tối tệp với ảnh */
+    border-radius: 5px;
+    overflow: hidden;
+    margin-bottom: 15px;
+}
+.tab-pb {
+    flex: 1;
+    background: transparent;
+    color: #ccc;
+    border: none;
+    padding: 10px 0;
+    cursor: pointer;
+    font-size: 14px;
+    transition: 0.2s;
+}
+.tab-pb.active {
+    background: #f39c12; /* Nút cam nổi bật */
+    color: #fff;
+    font-weight: bold;
+}
+
+.item-pho-bien {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px 0;
+    border-bottom: 1px solid #eee;
+    text-decoration: none;
+    color: inherit;
+    transition: 0.2s;
+}
+.item-pho-bien:hover {
+    transform: translateX(5px);
+}
+
+/* Chế độ tối cho đường viền */
+body.dark-mode .item-pho-bien {
+    border-bottom-color: #2a2a32;
+}
+
+/* Hộp số thứ tự Ranking */
+.rank-box {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #888;
+    flex-shrink: 0;
+}
+body.dark-mode .rank-box { border-color: #444; color: #aaa; }
+
+/* Tô màu Top 1, Top 2, Top 3 */
+.item-pho-bien:nth-child(1) .rank-box {
+    border-color: #e74c3c;
+    color: #e74c3c;
+    font-weight: bold;
+} 
+.item-pho-bien:nth-child(2) .rank-box {
+    border-color: #f39c12;
+    color: #f39c12;
+    font-weight: bold;
+} 
+.item-pho-bien:nth-child(3) .rank-box {
+    border-color: #3498db;
+    color: #3498db;
+    font-weight: bold;
+} 
+
+.item-pho-bien img {
+    width: 60px;
+    height: 85px;
+    object-fit: cover;
+    border-radius: 5px;
+    flex-shrink: 0;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.info-pho-bien {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    overflow: hidden;
+}
+.info-pho-bien h4 {
+    margin: 0;
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #333;
+}
+body.dark-mode .info-pho-bien h4 {
+    color: #fff;
+}
+
+.info-pho-bien .genres {
+    font-size: 12px;
+    color: #888;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.info-pho-bien .genres span {
+    color: #e74c3c;  /* Điểm nhấn chữ màu đỏ cho Thể loại */
+}
+.info-pho-bien .sao {
+    color: #f39c12;
+    font-size: 12px;
+}
+
+/* --- ĐIỆN THOẠI RESPONSIVE --- */
+@media (max-width: 768px) {
+    .layout-trang-chu {
+        flex-direction: column-reverse;    /* Đẩy truyện hay xuống dưới cùng trên Mobile */ }
+    .sidebar-trai {
+        width: 100%;
+        max-width: none;
+        box-sizing: border-box;
+    }
+}

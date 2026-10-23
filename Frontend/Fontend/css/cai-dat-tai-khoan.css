@@ -1,0 +1,173 @@
+/* =========================================
+   GIAO DIỆN TRANG CÀI ĐẶT TÀI KHOẢN (DASHBOARD)
+   ========================================= */
+.cai-dat-container {
+    display: flex;
+    gap: 30px;
+    margin-top: 20px;
+    align-items: flex-start;
+}
+
+/* Khung nội dung chính bên trái */
+.cai-dat-main {
+    flex: 2.5;
+    background: #1e1e24;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    color: #fff;
+    border: 1px solid #3a3a40;
+}
+
+.tab-content h3 {
+    margin-top: 0;
+    font-size: 20px;
+    margin-bottom: 25px;
+    color: #fff;
+}
+
+/* Khu vực Avatar */
+.avatar-upload-box {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background: #121216;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #2c2c34;
+    margin-bottom: 25px;
+}
+.avatar-upload-box img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #f39c12;
+    color: transparent; 
+    background-color: #2a2a32;
+}
+.avatar-desc h4 { margin: 0 0 5px 0; font-size: 16px; color: #fff; }
+.avatar-desc p { margin: 0 0 10px 0; font-size: 13px; color: #888; }
+.btn-doi-anh {
+    display: inline-block;
+    background: #33333d;
+    color: #fff;
+    padding: 6px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: bold;
+    transition: 0.2s;
+}
+.btn-doi-anh:hover { background: #f39c12; color: #000; }
+#inputAnh { display: none; }
+
+/* Thêm định dạng bọc icon cho input */
+.form-group { margin-bottom: 20px; }
+.form-group label { display: block; font-weight: 600; margin-bottom: 8px; color: #ccc; font-size: 14px; }
+
+.input-icon-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+.input-icon-wrap i {
+    position: absolute;
+    left: 15px;
+    color: #888;
+    font-size: 16px;
+    z-index: 2;
+}
+.input-icon-wrap input {
+    width: 100%;
+    padding: 12px 15px 12px 45px !important; /* Đẩy chữ sang phải để không bị đè lên icon */
+    background-color: #121216;
+    border: 1px solid #2c2c34;
+    border-radius: 6px;
+    color: #fff;
+    font-size: 15px;
+    outline: none;
+    transition: 0.2s;
+}
+.input-icon-wrap input:focus { border-color: #f39c12; }
+.input-icon-wrap input:disabled { background: #0a0a0d; color: #666; cursor: not-allowed; }
+
+/* Các ô input thông thường khác */
+.form-group input {
+    width: 100%;
+    padding: 12px 15px;
+    background-color: #121216;
+    border: 1px solid #2c2c34;
+    border-radius: 6px;
+    color: #fff;
+    font-size: 15px;
+    outline: none;
+}
+.form-group input:focus { border-color: #f39c12; }
+
+.btn-luu {
+    background-color: #f39c12;
+    color: #fff;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 15px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.btn-luu:hover { background-color: #e67e22; }
+
+/* Cột Sidebar bên phải */
+.cai-dat-sidebar {
+    flex: 1;
+    background: #1e1e24;
+    border-radius: 8px;
+    border: 1px solid #3a3a40;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+.sidebar-title {
+    background: #121216;
+    padding: 15px 20px;
+    font-weight: bold;
+    font-size: 14px;
+    color: #fff;
+    border-bottom: 1px solid #3a3a40;
+    letter-spacing: 0.5px;
+}
+.sidebar-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.sidebar-item {
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #ccc;
+    font-size: 15px;
+    cursor: pointer;
+    border-bottom: 1px solid #2c2c34;
+    transition: 0.2s;
+}
+.sidebar-item:last-child { border-bottom: none; }
+.sidebar-item i { font-size: 16px; width: 20px; text-align: center; }
+.sidebar-item:hover {
+    background-color: #2a2a32;
+    color: #fff;
+}
+.sidebar-item.active {
+    background-color: #2a2a32;
+    color: #fff;
+    border-left: 4px solid #f39c12;
+}
+.logout-item { color: #e74c3c !important; }
+.logout-item:hover { background-color: rgba(231, 76, 60, 0.1) !important; }
+
+.an-khung { display: none !important; }
+
+@media (max-width: 768px) {
+    .cai-dat-container { flex-direction: column-reverse; }
+}

@@ -1,0 +1,28 @@
+/* --- NÚT THEO DÕI TRUYỆN --- */
+.btn-theo-doi {
+    background-color: transparent;
+    color: #e74c3c;
+    border: 2px solid #e74c3c;
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 15px;
+    transition: 0.3s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+.btn-theo-doi:hover {
+    background-color: #fbdada;
+}
+/* Trạng thái đã theo dõi (Đỏ đặc) */
+.btn-theo-doi.da-theo-doi {
+    background-color: #e74c3c;
+    color: white;
+}
+.btn-theo-doi.da-theo-doi:hover {
+    background-color: #c0392b;
+    border-color: #c0392b;
+}

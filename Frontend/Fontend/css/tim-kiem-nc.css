@@ -1,0 +1,86 @@
+/* =========================================
+   CSS TRANG TÌM KIẾM NÂNG CAO (MỚI)
+   ========================================= */
+.khung-loc-nang-cao {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    margin-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Khoảng cách giữa hàng tìm kiếm và hàng bộ lọc */
+}
+
+body.dark-mode .khung-loc-nang-cao {
+    background-color: #1e1e24; 
+}
+
+/* Hàng 1: Ô tìm kiếm */
+.hang-tim-kiem input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    font-size: 15px;
+    color: #333;
+    outline: none;
+    box-sizing: border-box;
+}
+
+/* Hàng 2: Bộ lọc Dropdown */
+.hang-bo-loc {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.hang-bo-loc select {
+    flex: 1; /* Chia đều không gian cho các select */
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    color: #333;
+    outline: none;
+    min-width: 150px;
+    font-size: 14px;
+}
+
+/* Nút tìm kiếm */
+.hang-bo-loc .btn-tim-kiem {
+    padding: 10px 25px;
+    background-color: #f39c12;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.2s;
+    min-width: 100px;
+}
+
+.hang-bo-loc .btn-tim-kiem:hover {
+    background-color: #e67e22;
+}
+
+/* ====== CHẾ ĐỘ TỐI (Giống thiết kế mẫu) ====== */
+body.dark-mode .hang-tim-kiem input,
+body.dark-mode .hang-bo-loc select {
+    background-color: #313338; /* Màu xám xanh giống ảnh mẫu */
+    border: 1px solid #1e1f22; /* Viền tiệp màu nền */
+    color: #dbdee1; /* Chữ xám sáng */
+}
+
+body.dark-mode .hang-tim-kiem input:focus,
+body.dark-mode .hang-bo-loc select:focus {
+    border-color: #f39c12;
+}
+
+/* Responsive cho điện thoại */
+@media (max-width: 768px) {
+    .hang-bo-loc {
+        flex-direction: column;
+    }
+}

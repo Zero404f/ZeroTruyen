@@ -1,0 +1,234 @@
+/* =========================================
+   GIAO DIỆN TRANG LỊCH SỬ
+   ========================================= */
+
+/* Thanh Tab (Thiết bị / Tài khoản) */
+.ls-tabs {
+    display: flex;
+    background-color: #333338;
+    border-radius: 5px;
+    overflow: hidden;
+    margin-bottom: 15px;
+}
+.ls-tab-btn {
+    flex: 1;
+    padding: 12px 0;
+    border: none;
+    background: transparent;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.ls-tab-btn.active {
+    background-color: #f39c12; /* Màu cam */
+    font-weight: bold;
+}
+
+/* Thanh công cụ Lọc */
+.ls-filters {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+.ls-filters select {
+    flex: 1;
+    min-width: 150px;
+    padding: 10px;
+    background-color: #44444a;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    outline: none;
+}
+.ls-btn-search {
+    padding: 10px 25px;
+    background-color: #f39c12;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* Danh sách truyện nằm ngang */
+.ls-danh-sach {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+.ls-item {
+    display: flex;
+    gap: 15px;
+    background: transparent;
+}
+.ls-item img {
+    width: 90px;
+    height: 125px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+.ls-item-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+.ls-title {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    text-decoration: none;
+    margin-bottom: 8px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+.ls-chapter {
+    font-size: 14px;
+    color: #888;
+    margin: 0 0 auto 0; /* Đẩy nút xóa xuống đáy */
+}
+.ls-btn-delete {
+    background: transparent;
+    border: none;
+    color: #e74c3c;
+    font-size: 14px;
+    cursor: pointer;
+    text-align: left;
+    padding: 0;
+    margin-top: 15px;
+    transition: 0.2s;
+}
+.ls-btn-delete:hover {
+    color: #c0392b;
+}
+
+/* Tùy chỉnh màu Dark Mode */
+body.dark-mode .ls-title { color: #fff; }
+body.dark-mode .ls-chapter { color: #ccc; }
+
+/* =========================================
+   GIAO DIỆN TAB TÀI KHOẢN
+   ========================================= */
+.ls-tai-khoan-container {
+    text-align: center;
+    padding: 20px 0 50px 0;
+    color: #333;
+}
+body.dark-mode .ls-tai-khoan-container {
+    color: #fff;
+}
+
+/* Lời cảnh báo */
+.ls-tk-canh-bao {
+    font-size: 15px;
+    line-height: 1.6;
+    margin-bottom: 40px;
+    color: #555;
+}
+body.dark-mode .ls-tk-canh-bao {
+    color: #ccc;
+}
+.ls-tk-link {
+    color: #f39c12; /* Màu chữ cam nổi bật */
+    text-decoration: none;
+    font-weight: bold;
+}
+.ls-tk-link:hover {
+    text-decoration: underline;
+}
+
+/* Hộp đăng nhập */
+.ls-tk-box {
+    max-width: 400px;
+    margin: 0 auto;
+    background: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05); /* Đổ bóng sáng */
+}
+body.dark-mode .ls-tk-box {
+    background: transparent; /* Tệp với nền để giống ảnh thiết kế */
+    box-shadow: none; 
+}
+
+.ls-tk-logo {
+    width: 150px;
+    margin-bottom: 10px;
+}
+.ls-tk-box h3 {
+    margin: 10px 0 5px 0;
+    font-size: 20px;
+}
+.ls-tk-box p {
+    margin: 0 0 25px 0;
+    color: #888;
+    font-size: 14px;
+}
+
+/* Nút Đăng Nhập (Cam) */
+.ls-btn-login {
+    width: 100%;
+    background-color: #f39c12;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin-bottom: 20px;
+}
+.ls-btn-login:hover {
+    background-color: #e67e22;
+}
+
+/* Dòng chữ "Hoặc" */
+.ls-tk-divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #888;
+    margin-bottom: 20px;
+}
+.ls-tk-divider::before,
+.ls-tk-divider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #ddd;
+}
+body.dark-mode .ls-tk-divider::before,
+body.dark-mode .ls-tk-divider::after {
+    border-bottom: 1px solid #444;
+}
+.ls-tk-divider span {
+    padding: 0 15px;
+    font-size: 14px;
+}
+
+/* Nút Đăng Ký (Viền) */
+.ls-btn-register {
+    width: 100%;
+    background-color: transparent;
+    color: #333;
+    border: 1px solid #ccc;
+    padding: 12px;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+body.dark-mode .ls-btn-register {
+    color: #fff;
+    border-color: #555;
+}
+.ls-btn-register:hover {
+    background-color: #f4f4f9;
+}
+body.dark-mode .ls-btn-register:hover {
+    background-color: #2a2a32;
+}

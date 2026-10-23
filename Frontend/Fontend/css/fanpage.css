@@ -1,0 +1,96 @@
+/* =========================================
+   GIAO DIỆN TRANG FANPAGE / CỘNG ĐỒNG
+   ========================================= */
+.fanpage-container {
+    display: flex;
+    gap: 30px;
+    margin-top: 20px;
+    align-items: flex-start;
+}
+
+.fanpage-info-box {
+    flex: 1.5;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.fanpage-info-box h3 {
+    color: #e74c3c;
+    font-size: 22px;
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+.fanpage-info-box p {
+    color: #555;
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+/* Các nút Mạng xã hội */
+.fanpage-social-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.btn-mxh {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn-mxh:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    color: #fff;
+}
+
+.btn-fb { background-color: #1877F2; } /* Xanh Facebook */
+.btn-discord { background-color: #5865F2; } /* Xanh Discord */
+.btn-youtube { background-color: #FF0000; } /* Đỏ Youtube */
+
+/* Khung Iframe Facebook */
+.fanpage-embed-box {
+    flex: 1;
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    display: flex;
+    justify-content: center;
+}
+
+/* ===== CHẾ ĐỘ TỐI (DARK MODE) ===== */
+body.dark-mode .fanpage-info-box,
+body.dark-mode .fanpage-embed-box {
+    background-color: #1e1e24;
+    border: 1px solid #3a3a40;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+}
+
+body.dark-mode .fanpage-info-box p {
+    color: #ccc;
+}
+
+/* Dành cho màn hình điện thoại (Dưới 768px) */
+@media (max-width: 768px) {
+    .fanpage-container {
+        flex-direction: column; /* Đẩy iframe FB xuống dưới trên mobile */
+    }
+    .fanpage-info-box, .fanpage-embed-box {
+        width: 100%;
+        box-sizing: border-box;
+    }
+}

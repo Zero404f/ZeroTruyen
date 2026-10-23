@@ -1,0 +1,47 @@
+# --- Java / Spring Boot ---
+*.class
+*.log
+*.jar
+*.war
+
+# --- Thư mục build của Maven ---
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+
+# --- Thư mục build của Gradle (nếu bạn dùng Gradle thay vì Maven) ---
+.gradle/
+build/
+
+# --- Cấu hình phần mềm lập trình (IDE) ---
+# VS Code
+.vscode/
+# IntelliJ IDEA
+.idea/
+*.iws
+*.iml
+*.ipr
+# Eclipse
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+# --- Các file rác của hệ điều hành ---
+.DS_Store
+Thumbs.db
+
+# --- Cấu hình Node.js (Phòng trường hợp bạn dùng npm cho thư viện JavaScript) ---
+node_modules/
+
+# --- File chứa cấu hình nhạy cảm/Mật khẩu ---
+.env

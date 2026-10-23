@@ -1,0 +1,14 @@
+/*========================================== */
+/*   FILE TỔNG: QUẢN LÝ TOÀN BỘ CSS CỦA WEB  */
+/* ========================================= */
+@import url('base.css');
+@import url('index.css');
+@import url('chi-tiet.css');
+@import url('doc-truyen.css');
+@import url('lich-su.css');
+@import url('auth.css');
+@import url('the-loai.css');
+@import url('tim-kiem-nc.css');
+@import url('theo-doi.css');
+@import url('cai-dat-tai-khoan.css');
+@import url('fanpage.css');

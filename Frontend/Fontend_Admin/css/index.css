@@ -1,0 +1,75 @@
+.khung-upload-anh { 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    gap: 10px; 
+    background: #f9f9f9; 
+    padding: 15px; 
+    border: 1px dashed #ccc; 
+    border-radius: 8px;
+}
+
+.khung-upload-anh img { 
+    width: 150px; 
+    height: 210px; 
+    object-fit: cover; 
+    border-radius: 5px; 
+    border: 1px solid #ddd;
+}
+
+.btn-upload { 
+    background: #3498db; 
+    color: #fff; 
+    padding: 8px 15px; 
+    border-radius: 5px; 
+    cursor: pointer; 
+    font-size: 13px; 
+    font-weight: bold; 
+}
+
+.tag-container { 
+    display: flex; 
+    flex-wrap: wrap; 
+    gap: 8px; 
+    margin-top: 10px; 
+    min-height: 45px; 
+    padding: 10px; 
+    border: 1px dashed #ccc; 
+    border-radius: 5px; 
+    background: #fdfdfd; 
+}
+
+.tag-item { 
+    background-color: #3498db; 
+    color: white; 
+    padding: 5px 12px; 
+    border-radius: 20px; 
+    font-size: 13px; 
+    display: flex; 
+    align-items: center; 
+    gap: 8px; 
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
+}
+
+.tag-item i { 
+    cursor: pointer; 
+    font-size: 12px; 
+    transition: 0.2s; 
+}
+
+.tag-item i:hover { 
+    color: #ff4757; 
+    transform: scale(1.2); 
+}
+
+.ten-truyen-link { 
+    color: #2c3e50; 
+    cursor: pointer; 
+    transition: 0.2s; 
+    font-size: 15px; 
+}
+
+.ten-truyen-link:hover { 
+    color: #e74c3c; 
+    text-decoration: underline; 
+}

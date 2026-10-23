@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Quản lý Nâng cao - ZeroTruyen</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <aside class="admin-sidebar">
+        <div class="admin-logo">
+            <span style="font-size: 20px; color: #fff; font-weight: bold;">ZeroTruyen</span>
+            <span>ADMIN PANEL</span>
+        </div>
+        <ul class="admin-menu">
+            <li><a href="index.html"><i class="fas fa-book"></i> Quản lý Truyện</a></li>
+            <li class="active"><a href="quan-ly-nang-cao.html"><i class="fas fa-cogs"></i> Quản lý Nâng cao</a></li>
+            <li><a href="http://127.0.0.1:5500/index.html" target="_blank"><i class="fas fa-external-link-alt"></i> Xem Web Độc giả</a></li>
+            <li><a href="#" style="color: #e74c3c;" onclick="dangXuatAdmin()"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a></li>
+        </ul>
+    </aside>
+
+    <main class="admin-main">
+        <header class="admin-header nang-cao-header">
+            <h2>Quản lý Nâng cao</h2>
+            
+            <div class="filter-container">
+                <!-- Hàng 1: Ô tìm kiếm -->
+                <div class="search-row">
+                    <input type="text" id="oTimKiem" class="search-input" placeholder="Tìm theo tên truyện hoặc ID...">
+                </div>
+                
+                <!-- Hàng 2: Các bộ lọc -->
+                <div class="filter-row">
+                    
+                    <select id="locTheLoai" class="filter-select">
+                        <option value="">Thể loại Tất cả</option>
+                    </select>
+
+                    <select id="locTrangThai" class="filter-select">
+                        <option value="">Trạng thái Tất cả</option>
+                        <option value="Đang ra">Đang ra</option>
+                        <option value="Đã hoàn thành">Đã hoàn thành</option>
+                        <option value="Tạm ngưng">Tạm ngưng</option>
+                    </select>
+
+                    <select id="locSapXep" class="filter-select">
+                        <option value="time_desc">Sắp xếp: Mới nhất</option>
+                        <option value="time_asc">Sắp xếp: Cũ nhất</option>
+                        <option value="id_desc">ID: Giảm dần</option>
+                        <option value="id_asc">ID: Tăng dần</option>
+                        <option value="views_desc">Lượt xem: Giảm dần</option>
+                        <option value="views_asc">Lượt xem: Tăng dần</option>
+                    </select>
+
+                    <select id="locSoChuong" class="filter-select">
+                        <option value="">Số chương Tất cả</option>
+                        <option value="0">0 chương</option>
+                        <option value="1-50">1 - 50 chương</option>
+                        <option value="51-100">51 - 100 chương</option>
+                        <option value=">100">Hơn 100 chương</option>
+                    </select>
+
+                    <button class="btn-loc" onclick="timKiemTruyen()">
+                        <i class="fas fa-filter"></i> Lọc
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <div class="admin-table-container">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Ảnh Bìa</th>
+                        <th>Tên Truyện</th>
+                        <th>Tác giả</th>
+                        <th>Lượt xem</th>
+                        <th>Trạng thái</th>
+                    </tr>
+                </thead>
+                <tbody id="bangDanhSachTruyen">
+                    <tr><td colspan="6" style="text-align: center;">Đang tải dữ liệu...</td></tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div id="thanhPhanTrang" style="display: flex; justify-content: center; gap: 8px; margin-top: 20px;"></div>
+    </main>
+
+    <!-- MODAL CHI TIẾT CHUẨN CỦA TRUYỆN -->
+    <div id="modalChiTietTruyen" class="admin-modal">
+        <div class="admin-modal-content" style="width: 600px;">
+            <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #eee; padding-bottom: 10px;">
+                <h3 id="ctTenTruyen" style="margin: 0; color: #e74c3c;">Tên Truyện</h3>
+                <i class="fas fa-times" style="cursor:pointer; font-size: 20px; color: #888;" onclick="dongModalChiTiet()"></i>
+            </div>
+            
+            <div style="display: flex; gap: 20px; margin-top: 20px;">
+                <img id="ctAnhBia" src="" style="width: 160px; height: 220px; object-fit: cover; border-radius: 5px; border: 1px solid #ddd;">
+                <div style="flex: 1; font-size: 15px; line-height: 1.8;">
+                    <p style="margin: 0;"><strong>Tác giả:</strong> <span id="ctTacGia"></span></p>
+                    <p style="margin: 0;"><strong>Trạng thái:</strong> <span id="ctTrangThai"></span></p>
+                    <p style="margin: 0;"><strong>Lượt xem:</strong> <span id="ctLuotXem"></span> <i class="fas fa-eye" style="color:#888; font-size:12px;"></i></p>
+                    <p style="margin: 0;"><strong>Đánh giá:</strong> <span id="ctDanhGia" style="color: #f39c12; font-weight: bold;"></span> <i class="fas fa-star" style="color:#f39c12; font-size:12px;"></i></p>
+                    <div style="margin-top: 10px;">
+                        <strong>Thể loại:</strong>
+                        <div id="ctTheLoai" class="tag-container" style="min-height: auto; padding: 5px; margin-top: 5px;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top: 15px; max-height: 100px; overflow-y: auto; color: #555; font-size: 14px; padding: 10px; background: #f9f9f9; border-radius: 5px;">
+                <i id="ctMoTa"></i>
+            </div>
+
+            <div class="modal-actions" style="margin-top: 25px; justify-content: center; gap: 15px;">
+                <button class="btn-sua" id="btnChuyenSuaThongTin" style="padding: 10px 20px;"><i class="fas fa-edit"></i> Sửa thông tin</button>
+                <button class="btn-them-moi" id="btnChuyenQuanLyChuong" style="background: #3498db; padding: 10px 20px;"><i class="fas fa-list-ol"></i> Quản lý Chương</button>
+                <button class="btn-xoa" id="btnXoaTruyenModal" style="padding: 10px 20px;"><i class="fas fa-trash"></i> Xóa truyện</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Sửa Truyện -->
+    <div id="modalTruyen" class="admin-modal">
+        <div class="admin-modal-content">
+            <h3 id="modalTitle">Cập nhật Truyện</h3>
+            <input type="hidden" id="adTruyenId"> 
+            
+            <div class="form-group-admin row-form">
+                <div class="col-form">
+                    <label>Tên Truyện</label>
+                    <input type="text" id="adTenTruyen" placeholder="Nhập tên truyện...">
+                    <label>Tác Giả</label>
+                    <input type="text" id="adTacGia" placeholder="Nhập tên tác giả...">
+                    <label>Trạng Thái</label>
+                    <select id="adTrangThai">
+                        <option value="Đang ra">Đang ra</option>
+                        <option value="Đã hoàn thành">Đã hoàn thành</option>
+                        <option value="Tạm ngưng">Tạm ngưng</option>
+                    </select>
+                    <label>Thêm Thể loại</label>
+                    <select id="adTheLoaiSelect" onchange="chonTheLoai(this)">
+                        <option value="">-- Chọn thể loại --</option>
+                    </select>
+                    <div id="khungChuaTag" class="tag-container"></div>
+                </div>
+
+                <div class="col-form" style="text-align: center;">
+                    <label>Ảnh Bìa</label>
+                    <div class="khung-upload-anh">
+                        <img id="adAnhBiaPreview" src="https://via.placeholder.com/200x280?text=Chon+Anh">
+                        <label for="adInputAnh" class="btn-upload">Tải ảnh lên</label>
+                        <input type="file" id="adInputAnh" accept="image/*" style="display: none;" onchange="uploadAnhBia(event)">
+                        <input type="hidden" id="adAnhBiaLuuTru">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group-admin">
+                <label>Mô tả truyện</label>
+                <textarea id="adMoTa" rows="4"></textarea>
+            </div>
+
+            <div class="modal-actions">
+                <button class="btn-huy" onclick="dongModalSuaTruyen()">Hủy</button>
+                <button class="btn-luu" onclick="luuSuaTruyen()">Lưu Cập Nhật</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/quan-ly-nang-cao.js"></script>
+</body>
+</html>

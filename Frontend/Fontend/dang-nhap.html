@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng nhập - ZeroTruyen</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Nhúng thư viện của Cloudflare -->
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+    <!-- GIỮ NGUYÊN HEADER GỐC CỦA BẠN -->
+    <div id="thanh-dieu-huong">
+        <header>
+            <a href="index.html"><img id="Logo" src="Logo.png" alt="Logo"></a>
+            
+            <div class="hop-tim-kiem">
+                <input type="text" placeholder="Tìm kiếm" id="vung-nhap-chu">
+                <i class="fas fa-search icon-timkiem"></i>
+            </div>
+            <button id="nut-giao-dien" title="Chuyển đổi giao diện"><i class="fas fa-moon"></i></button>
+            <button id="dang-ki" onclick="window.location.href='dang-ky.html'"><i class="fas fa-user-circle"></i> Đăng kí</button>
+            <button id="dang-nhap" onclick="window.location.href='dang-nhap.html'"><i class="fas fa-user-circle"></i> Đăng nhập</button>
+        </header>
+        <!-- Thanh menu --> 
+        <ul class="menu">
+            <li><a href="index.html">Trang chủ</a></li>
+            <li><a href="theo-doi.html">Theo dõi</a></li>
+            <li><a href="lich-su.html">Lịch sử</a></li>
+            <li><a href="the-loai.html">Thể loại</a></li>
+            <li><a href="tim-kiem-nc.html">Tìm kiếm nâng cao</a></li>
+            <li><a href="fanpage.html">Fanpage</a></li>
+        </ul>
+    </div>
+
+    <!-- KHU VỰC FORM ĐĂNG NHẬP -->
+    <main class="noi-dung-chinh auth-page">
+        <div class="auth-box">
+            <img src="Logo.png" alt="ZeroTruyen" class="auth-logo">
+            <h2>ZeroTruyen</h2>
+            <p class="auth-subtitle">Đăng nhập tài khoản</p>
+
+            <!-- Ô nhập Email/Tên -->
+            <div class="auth-input-group">
+                <i class="fas fa-envelope auth-input-icon"></i>
+                <input type="text" id="dnTenTaiKhoan" class="auth-input" placeholder="Nhập tên đăng nhập của bạn">
+            </div>
+
+            <!-- Ô nhập Mật khẩu -->
+            <div class="auth-input-group">
+                <i class="fas fa-lock auth-input-icon"></i>
+                <input type="password" id="dnMatKhau" class="auth-input" placeholder="Nhập mật khẩu của bạn">
+                <i class="fas fa-eye-slash auth-input-icon-right" id="toggleMatKhauDN"></i>
+            </div>
+
+            <div class="auth-forgot">
+                <a href="#">Quên mật khẩu?</a>
+            </div>
+
+            <!-- Nơi hiển thị ô Captcha -->
+            <div style="display: flex; justify-content: center; margin-bottom: 20px;">
+                <div class="cf-turnstile" data-sitekey="0x4AAAAAAE8xEQkI28NABEvr"></div>
+            </div>
+            
+            <button id="btnThucHienDangNhap" class="auth-btn-submit">Đăng nhập</button>
+            <p id="thongBaoDangNhap" style="font-size: 14px; margin-bottom: 15px; font-weight: bold;"></p>
+            
+            <p class="auth-switch">Chưa có tài khoản? <a href="dang-ky.html">Tạo tài khoản</a></p>
+            
+            <div class="auth-divider"><span>Hoặc tiếp tục với</span></div>
+
+            <div id="nutGoogleLogin" style="display: flex; justify-content: center;"></div>
+        </div>
+    </main>
+
+    <!-- Nhúng file JavaScript -->
+    <script src="js/app.js"></script>
+    <script src="js/auth.js"></script>
+</body>
+</html>

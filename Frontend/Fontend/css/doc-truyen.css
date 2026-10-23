@@ -1,0 +1,102 @@
+/* === GIAO DIỆN THANH CHUYỂN CHƯƠNG (BẢN MỚI) === */
+.thong-tin-seo {
+    text-align: center;
+    color: #666;
+    font-size: 14px;
+    margin: 20px 0;
+    line-height: 1.6;
+}
+body.dark-mode .thong-tin-seo {
+    color: #aaa;
+}
+
+.thanh-chuyen-chuong-moi {
+    display: flex;
+    justify-content: space-between; /* Đẩy 1 cụm sang trái, 1 cụm sang phải */
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.dieu-huong-trai, .dieu-huong-phai {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Khoảng cách giữa các nút */
+}
+
+/* 1. Nút Chọn Chương (Select) */
+.chon-chuong-moi {
+    background-color: #f0f0f0;
+    color: #333;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 25px; /* Bo tròn mạnh */
+    font-size: 15px;
+    outline: none;
+    cursor: pointer;
+    font-family: inherit;
+    min-width: 150px;
+}
+body.dark-mode .chon-chuong-moi {
+    background-color: #2a2a32;
+    color: #fff;
+}
+
+/* 2. Nút Hành Động (Download, Report) */
+.btn-hanh-dong {
+    background-color: #f0f0f0;
+    color: #555;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.btn-hanh-dong:hover {
+    background-color: #e0e0e0;
+}
+body.dark-mode .btn-hanh-dong {
+    background-color: #2a2a32;
+    color: #bbb;
+}
+body.dark-mode .btn-hanh-dong:hover {
+    background-color: #3a3a45;
+    color: #fff;
+}
+
+/* 3. Nút Điều Hướng Cam (Trước, Sau) */
+.btn-chuyen-cam {
+    background-color: #ff9800; /* Màu cam nổi bật giống hình */
+    color: #fff;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 25px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.btn-chuyen-cam:hover {
+    background-color: #e68a00;
+    transform: translateY(-2px); /* Hiệu ứng nảy nhẹ */
+}
+
+/* Responsive: Chỉnh lại layout trên màn hình điện thoại (Dưới 768px) */
+@media (max-width: 768px) {
+    .thanh-chuyen-chuong-moi {
+        flex-direction: column; /* Xếp dọc các cụm trên điện thoại */
+    }
+    .dieu-huong-trai, .dieu-huong-phai {
+        width: 100%;
+        justify-content: space-between;
+    }
+    .chon-chuong-moi { flex: 1; }
+    .btn-hanh-dong span { display: none; } /* Có thể ẩn chữ, chỉ hiện Icon trên ĐT */
+}

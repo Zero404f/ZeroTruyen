@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZeroTruyen</title>
+    <!-- Nhúng file CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Kho thư viện Icon FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div id="thanh-dieu-huong">
+        <header>
+            <a href="index.html"><img id="Logo" src="Logo.png" alt="Logo"></a>
+            
+            <div class="hop-tim-kiem">
+                <input type="text" placeholder="Tìm kiếm" id="vung-nhap-chu">
+                <i class="fas fa-search icon-timkiem"></i>
+            </div>
+            <button id="nut-giao-dien" title="Chuyển đổi giao diện"><i class="fas fa-moon"></i></button>
+            <button id="dang-ki" onclick="window.location.href='dang-ky.html'"><i class="fas fa-user-circle"></i> Đăng kí</button>
+            <button id="dang-nhap" onclick="window.location.href='dang-nhap.html'"><i class="fas fa-user-circle"></i> Đăng nhập</button>
+        </header>
+        <!-- Thanh menu --> 
+        <ul class="menu">
+            <li><a href="index.html">Trang chủ</a></li>
+            <li><a href="theo-doi.html">Theo dõi</a></li>
+            <li><a href="lich-su.html">Lịch sử</a></li>
+            <li><a href="the-loai.html">Thể loại</a></li>
+            <li><a href="tim-kiem-nc.html">Tìm kiếm nâng cao</a></li>
+            <li><a href="fanpage.html">Fanpage</a></li>
+        </ul>
+    </div>
+
+    <!-- BẮT ĐẦU PHẦN NỘI DUNG CÀI ĐẶT -->
+    <main class="noi-dung-chinh">
+        <div class="cai-dat-container">
+            
+            <!-- CỘT BÊN TRÁI: KHUNG HIỂN THỊ NỘI DUNG -->
+            <div class="cai-dat-main">
+                
+                <!-- TAB 1: THÔNG TIN TÀI KHOẢN -->
+                <div id="tabContent-thong-tin" class="tab-content">
+                    <div class="avatar-upload-box">
+                        <img id="anhDaiDienHienThi" src="https://via.placeholder.com/100" alt="Avatar">
+                        <div class="avatar-desc">
+                            <h4>Ảnh đại diện</h4>
+                            <p>Cho phép file JPG, PNG hoặc GIF.</p>
+                            <label for="inputAnh" class="btn-doi-anh">Đổi ảnh</label>
+                            <input type="file" id="inputAnh" accept="image/*">
+                            <input type="hidden" id="linkAnhAn">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Tên người dùng</label>
+                        <div class="input-icon-wrap">
+                            <i class="fas fa-user"></i>
+                            <input type="text" id="cdTen" placeholder="Nhập tên hiển thị">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Email</label>
+                        <div class="input-icon-wrap">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" id="cdEmail" placeholder="Nhập email">
+                        </div>
+                        <small id="ghiChuGoogle" style="color: #e74c3c; display: none; margin-top: 5px;">Tài khoản Google không thể thay đổi Email.</small>
+                    </div>
+
+                    <button class="btn-luu" onclick="luuThongTin()">Lưu thay đổi</button>
+                </div>
+
+                <!-- TAB 2: ĐỔI MẬT KHẨU -->
+                <div id="tabContent-mat-khau" class="tab-content" style="display: none;">
+                    <h3>Đổi mật khẩu</h3>
+                    <div class="form-group">
+                        <label>Mật khẩu hiện tại</label>
+                        <input type="password" id="mkCu" placeholder="Nhập mật khẩu hiện tại">
+                    </div>
+                    <div class="form-group">
+                        <label>Mật khẩu mới</label>
+                        <input type="password" id="mkMoi" placeholder="Nhập mật khẩu mới">
+                    </div>
+                    <div class="form-group">
+                        <label>Xác nhận mật khẩu mới</label>
+                        <input type="password" id="mkMoiXacNhan" placeholder="Nhập lại mật khẩu mới">
+                    </div>
+                    <button class="btn-luu" onclick="luuMatKhau()">Cập nhật mật khẩu</button>
+                </div>
+
+            </div>
+
+            <!-- CỘT BÊN PHẢI: MENU ĐIỀU HƯỚNG (SIDEBAR) -->
+            <div class="cai-dat-sidebar">
+                <div class="sidebar-title">DANH SÁCH THÔNG TIN</div>
+                <ul class="sidebar-menu">
+                    <li class="sidebar-item active" onclick="chuyenTab('thong-tin', this)">
+                        <i class="fas fa-user-circle"></i> Thông tin tài khoản
+                    </li>
+                    <li class="sidebar-item" id="menuDoiMatKhau" onclick="chuyenTab('mat-khau', this)">
+                        <i class="fas fa-lock"></i> Đổi mật khẩu
+                    </li>
+                    <li class="sidebar-item logout-item" onclick="dangXuatTaiKhoan()">
+                        <i class="fas fa-sign-out-alt"></i> Đăng xuất tài khoản
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- === FOOTER === -->
+    <footer>
+        <div class="footer-container">
+            <!-- Cột 1: Thông tin chung -->
+            <div class="footer-cot1">
+                <a href="index.html">
+                    <img src="Logo.png" alt="Logo" style="width: 150px; margin-bottom: 15px;">
+                </a>
+                <p>ZeroTruyen - Nền tảng đọc truyện trực tuyến miễn phí, cập nhật nhanh nhất. Chúc các bạn có những giây phút thư giãn tuyệt vời!</p>
+            </div>
+
+            <!-- Cột 2: Đường dẫn nhanh -->
+            <div class="footer-cot2">
+                <h3>Liên Kết</h3>
+                <ul>
+                    <li><a href="index.html">Trang chủ</a></li>
+                    <li><a href="the-loai.html">Thể loại</a></li>
+                    <li><a href="#">Điều khoản sử dụng</a></li>
+                    <li><a href="#">Chính sách bảo mật</a></li>
+                </ul>
+            </div>
+
+            <!-- Cột 3: Liên hệ & Mạng xã hội -->
+            <div class="footer-cot3">
+                <h3>Liên Hệ</h3>
+                <p><i class="fas fa-envelope"></i> admin@zerotruyen.com</p>
+                <div class="mang-xa-hoi">
+                    <a href="#" title="Facebook"><i class="fab fa-facebook"></i></a>
+                    <a href="#" title="Youtube"><i class="fab fa-youtube"></i></a>
+                    <a href="#" title="Discord"><i class="fab fa-discord"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Thanh bản quyền dưới cùng -->
+        <div class="footer-ban-quyen">
+            &copy; 2026 ZeroTruyen. All rights reserved.
+        </div>
+    </footer>
+    <!-- === KẾT THÚC FOOTER === -->
+
+    <!-- Nhúng file JavaScript (Luôn để ở cuối body) -->
+    <script src="js/app.js"></script>
+    <script src="js/cai-dat-tai-khoan.js"></script>
+
+</body>
+</html>

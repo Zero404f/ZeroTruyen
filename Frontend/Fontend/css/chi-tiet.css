@@ -1,0 +1,466 @@
+/*---- GIAO DIỆN TRANG CHI TIẾT TRUYỆN ----*/
+.chi-tiet-truyen {
+    display: flex;
+    gap: 30px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+
+.anh-bia-chi-tiet img {
+    width: 250px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.thong-tin-chu-dao h1 {
+    margin-top: 0;
+    color: #e74c3c;
+    font-size: 28px;
+}
+
+.thong-tin-chu-dao p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #333;
+}
+
+/* Ép màu cho Dark Mode */
+body.dark-mode .chi-tiet-truyen {
+    background-color: #1e1e24;
+}
+body.dark-mode .thong-tin-chu-dao p {
+    color: #ddd;
+}
+
+/* ----GIAO DIỆN DANH SÁCH CHƯƠNG (MỚI) ----*/
+.ds-chuong-container { margin-top: 20px; }
+
+/* 2 Nút Chương Đầu / Chương Cuối */
+.ds-chuong-buttons { 
+    display: flex; 
+    gap: 20px; 
+    margin-bottom: 20px; 
+}
+.btn-chuong { 
+    flex: 1; 
+    background: #f39c12; /* Màu cam */
+    color: white; 
+    padding: 20px; 
+    text-align: center; 
+    border-radius: 8px; 
+    text-decoration: none; 
+    display: block; 
+    transition: background 0.3s; 
+}
+.btn-chuong:hover {
+    background: #e67e22;
+    color: white;
+}
+.btn-chuong-sub {
+    font-size: 14px;
+    margin-bottom: 5px;
+    opacity: 0.9;
+}
+.btn-chuong-main {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+/* Công cụ tìm kiếm và lọc */
+.ds-chuong-tools {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+.ds-chuong-tools span {
+    color: #555;
+    font-size: 14px;
+    cursor: pointer;
+}
+.ds-chuong-search { 
+    width: 100%; 
+    padding: 12px; 
+    border: 1px solid #ccc; 
+    border-radius: 6px; 
+    background: #f9f9f9; 
+    outline: none; 
+    font-family: inherit;
+}
+
+/* Khung cuộn danh sách chương */
+.ds-chuong-list { 
+    max-height: 400px; /* Tạo thanh cuộn nếu danh sách quá dài */
+    overflow-y: auto; 
+    display: flex; 
+    flex-direction: column; 
+    gap: 10px; 
+    padding-right: 5px; 
+}
+.chuong-item { 
+    display: flex;
+    justify-content: space-between;
+    align-items: center; 
+    padding: 15px 20px;
+    background: #fff; 
+    border: 1px solid #eee; 
+    border-left: 4px solid #f39c12; /* Viền cam bên trái */
+    border-radius: 6px;
+    text-decoration: none;
+    color: #333; 
+    transition: 0.2s; 
+}
+.chuong-item:hover {
+    background: #fdfdfd;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+.chuong-info-left strong {
+    display: block;
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+.chuong-info-left span {
+    font-size: 12px;
+    color: #888;
+}
+.chuong-info-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 12px;
+    color: #888;
+}
+.chuong-info-right i {
+    font-size: 16px;
+    cursor: pointer;
+}
+
+/* Tùy chỉnh thanh cuộn cho mượt */
+.ds-chuong-list::-webkit-scrollbar { width: 8px; }
+.ds-chuong-list::-webkit-scrollbar-track { background: transparent; }
+.ds-chuong-list::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 4px;
+}
+
+/* === DARK MODE CHO DANH SÁCH CHƯƠNG === */
+body.dark-mode .ds-chuong-tools span { color: #bbb; }
+body.dark-mode .ds-chuong-search { 
+    background: #2c2c34;
+    border-color: #3a3a40;
+    color: white; 
+}
+body.dark-mode .chuong-item { 
+    background: #1e1e24;
+    border-color: #2c2c34;
+    border-left-color: #f39c12;
+    color: #ddd;
+}
+body.dark-mode .chuong-item:hover { background: #2a2a32; }
+body.dark-mode .chuong-info-left span, body.dark-mode .chuong-info-right { color: #999; }
+body.dark-mode .ds-chuong-list::-webkit-scrollbar-thumb { background: #555; }
+
+/* =========================================
+   GIAO DIỆN BÌNH LUẬN TRUYỆN
+   ========================================= */
+.khung-binh-luan-container {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+
+/* Khu vực viết bình luận */
+.viet-binh-luan {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 30px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 20px;
+}
+.avatar-binh-luan {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid #ddd;
+}
+.khung-nhap-lieu {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+}
+.khung-nhap-lieu textarea {
+    width: 100%;
+    height: 80px;
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    resize: none;
+    font-family: inherit;
+    font-size: 15px;
+    outline: none;
+    box-sizing: border-box;
+}
+.khung-nhap-lieu textarea:focus { border-color: #f39c12; }
+.btn-gui-binh-luan {
+    padding: 10px 20px;
+    background: #f39c12;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.btn-gui-binh-luan:hover { background: #e67e22; }
+
+/* Từng dòng bình luận */
+.item-binh-luan {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+.chi-tiet-binh-luan {
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    flex: 1;
+}
+.ten-nguoi-binh-luan {
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.thoi-gian-binh-luan {
+    font-size: 12px;
+    color: #888;
+    font-weight: normal;
+}
+.tag-chuong {
+    font-size: 11px;
+    background: #e74c3c;
+    color: white;
+    padding: 2px 6px;
+    border-radius: 3px;
+}
+.noi-dung-binh-luan {
+    color: #444;
+    line-height: 1.5;
+    font-size: 15px;
+}
+
+/* --- DARK MODE CHO BÌNH LUẬN --- */
+body.dark-mode .khung-binh-luan-container { background: #1e1e24; }
+body.dark-mode .viet-binh-luan { border-color: #333; }
+body.dark-mode .khung-nhap-lieu textarea { background: #2a2a32; border-color: #444; color: white; }
+body.dark-mode .chi-tiet-binh-luan { background: #2a2a32; }
+body.dark-mode .ten-nguoi-binh-luan { color: #fff; }
+body.dark-mode .noi-dung-binh-luan { color: #ccc; }
+
+/* --- MENU 3 CHẤM BÌNH LUẬN --- */
+.menu-binh-luan-container {
+    position: relative;
+    margin-left: auto; /* Tự động đẩy nút 3 chấm sát lề phải */
+}
+.btn-3-cham {
+    background: transparent;
+    border: none;
+    color: #888;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 5px 10px;
+    transition: 0.2s;
+}
+.btn-3-cham:hover { color: #f39c12; }
+
+.dropdown-binh-luan {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 25px;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    min-width: 120px;
+    z-index: 100;
+    overflow: hidden;
+}
+.dropdown-binh-luan.show {
+    display: flex;
+    flex-direction: column;
+}
+.dropdown-binh-luan button {
+    background: transparent;
+    border: none;
+    padding: 10px 15px;
+    text-align: left;
+    cursor: pointer;
+    font-size: 14px;
+    color: #333;
+    font-family: inherit;
+}
+.dropdown-binh-luan button:hover { background: #f4f4f9; }
+.dropdown-binh-luan button.nut-xoa { color: #e74c3c; }
+
+body.dark-mode .dropdown-binh-luan { background: #2a2a32; border-color: #444; }
+body.dark-mode .dropdown-binh-luan button { color: #ddd; }
+body.dark-mode .dropdown-binh-luan button:hover { background: #3a3a45; }
+
+/* =========================================
+   GIAO DIỆN SỬA BÌNH LUẬN TRỰC TIẾP
+   ========================================= */
+.textarea-sua-bl {
+    width: 100%;
+    min-height: 60px;
+    padding: 10px;
+    border: 1px solid #f39c12;
+    border-radius: 5px;
+    background: #fff;
+    color: #333;
+    font-family: inherit;
+    font-size: 15px;
+    outline: none;
+    resize: vertical;
+    margin-top: 10px;
+    box-sizing: border-box;
+}
+.hanh-dong-sua-bl {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 10px;
+}
+.btn-huy-sua {
+    background: transparent;
+    color: #888;
+    border: 1px solid #ccc;
+    padding: 6px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.2s;
+}
+.btn-huy-sua:hover { background: #f4f4f9; color: #333; }
+.btn-luu-sua {
+    background: #f39c12;
+    color: #fff;
+    border: none;
+    padding: 6px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.2s;
+}
+.btn-luu-sua:hover { background: #e67e22; }
+
+/* Dark mode cho sửa bình luận */
+body.dark-mode .textarea-sua-bl {
+    background: #121216;
+    border-color: #f39c12;
+    color: #fff;
+}
+body.dark-mode .btn-huy-sua {
+    border-color: #444;
+    color: #ccc;
+}
+body.dark-mode .btn-huy-sua:hover { background: #2a2a32; color: #fff; }
+
+/* Giao diện sao đánh giá tương tác */
+.sao-tuong-tac i {
+    cursor: pointer;
+    transition: color 0.2s, transform 0.2s;
+}
+.sao-tuong-tac i:hover {
+    transform: scale(1.2); /* Phóng to nhẹ khi chỉ chuột vào */
+}
+.sao-tuong-tac i.active {
+    color: #f39c12; /* Màu cam cho sao được chọn */
+}
+
+/* =========================================
+   MODAL ĐÁNH GIÁ TRUYỆN
+   ========================================= */
+.khung-nhap-danh-gia textarea {
+    width: 100%;
+    min-height: 80px;
+    padding: 10px;
+    border: 1px solid #444;
+    border-radius: 5px;
+    background: #2a2a32;
+    color: #fff;
+    font-family: inherit;
+    font-size: 14px;
+    margin-top: 15px;
+    resize: vertical;
+    outline: none;
+}
+.khung-nhap-danh-gia textarea:focus { border-color: #f39c12; }
+
+/* =========================================
+   MODAL XEM DANH SÁCH ĐÁNH GIÁ
+   ========================================= */
+.modal-ds-danh-gia {
+    width: 500px !important;
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+}
+.bo-loc-sao {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.btn-loc-sao {
+    background: #2a2a32;
+    color: #ccc;
+    border: 1px solid #444;
+    padding: 5px 10px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: 0.2s;
+}
+.btn-loc-sao:hover, .btn-loc-sao.active {
+    background: #f39c12;
+    color: #fff;
+    border-color: #f39c12;
+}
+.khung-cuon-danh-gia {
+    overflow-y: auto;
+    flex: 1;
+    text-align: left;
+    padding-right: 5px;
+    margin-bottom: 20px;
+}
+.khung-cuon-danh-gia::-webkit-scrollbar { width: 5px; }
+.khung-cuon-danh-gia::-webkit-scrollbar-thumb { background: #555; border-radius: 5px; }
+
+.item-danh-gia {
+    background: #2a2a32;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #333;
+}
+.item-dg-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+.item-dg-user { font-weight: bold; color: #f39c12; display: flex; align-items: center; gap: 10px;}
+.item-dg-user img { width: 30px; height: 30px; border-radius: 50%; object-fit: cover;}
+.item-dg-sao { color: #f39c12; font-size: 12px; }
+.item-dg-time { font-size: 12px; color: #888; }
+.item-dg-noidung { color: #ccc; font-size: 14px; line-height: 1.5; }
