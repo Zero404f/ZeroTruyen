@@ -1,0 +1,31 @@
+/* Làm nổi bật ID của thể loại */
+#bangDanhSachTheLoai td:first-child strong {
+    color: #e74c3c;
+    background: #fbdada;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 13px;
+}
+
+/* Hiệu ứng khi hover vào dòng thể loại */
+#bangDanhSachTheLoai tr {
+    transition: background-color 0.2s ease;
+}
+
+#bangDanhSachTheLoai tr:hover {
+    background-color: #f4f6f9;
+}
+
+/* Định dạng riêng cho ô nhập tên Thể loại trong Modal */
+#adTenTheLoai {
+    font-size: 16px;
+    font-weight: 500;
+    padding: 12px 15px;
+    border: 2px solid #ddd;
+    transition: border-color 0.3s;
+}
+
+#adTenTheLoai:focus {
+    border-color: #3498db;
+    box-shadow: 0 0 8px rgba(52, 152, 219, 0.2);
+}

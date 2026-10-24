@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Quản lý Thể loại - ZeroTruyen</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- SIDEBAR ADMIN -->
+    <aside class="admin-sidebar">
+        <div class="admin-logo">
+            <span style="font-size: 20px; color: #fff; font-weight: bold;">ZeroTruyen</span>
+            <span>ADMIN PANEL</span>
+        </div>
+        <ul class="admin-menu">
+            <li><a href="index.html"><i class="fas fa-book"></i> Quản lý Truyện</a></li>
+            <li><a href="quan-ly-nang-cao.html"><i class="fas fa-cogs"></i> Quản lý Nâng cao</a></li>
+            <!-- Đánh dấu trang hiện tại đang Active -->
+            <li class="active"><a href="quan-ly-the-loai.html"><i class="fas fa-tags"></i> Quản lý Thể loại</a></li>
+            <li><a href="#" onclick="chuyenSangWebDocGia()"><i class="fas fa-external-link-alt"></i> Xem Web Độc giả</a></li>
+            <li><a href="#" style="color: #e74c3c;" onclick="dangXuatAdmin()"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a></li>
+        </ul>
+    </aside>
+
+    <!-- NỘI DUNG CHÍNH -->
+    <main class="admin-main">
+        <header class="admin-header">
+            <h2>Quản lý Danh mục Thể loại</h2>
+            <button class="btn-them-moi" onclick="moModalTheLoai()"><i class="fas fa-plus"></i> Thêm Thể loại Mới</button>
+        </header>
+
+        <div class="admin-table-container">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th style="width: 10%;">ID</th>
+                        <th style="width: 60%;">Tên Thể loại</th>
+                        <th style="width: 30%; text-align: center;">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody id="bangDanhSachTheLoai">
+                    <tr><td colspan="3" style="text-align: center;">Đang tải dữ liệu...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <!-- MODAL THÊM / SỬA THỂ LOẠI -->
+    <div id="modalTheLoai" class="admin-modal">
+        <div class="admin-modal-content" style="width: 400px;">
+            <h3 id="modalTitleTL">Thêm Thể loại</h3>
+            <input type="hidden" id="adTheLoaiId">
+            
+            <div class="form-group-admin" style="margin-bottom: 20px;">
+                <label>Tên Thể loại</label>
+                <input type="text" id="adTenTheLoai" placeholder="Nhập tên thể loại (VD: Tiên Hiệp, Kiếm Hiệp...)" style="margin-top: 8px;">
+            </div>
+
+            <div class="modal-actions" style="justify-content: center;">
+                <button class="btn-huy" onclick="dongModalTheLoai()">Hủy bỏ</button>
+                <button class="btn-luu" onclick="luuTheLoai()">Lưu Thể loại</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Nhúng file Javascript xử lý -->
+    <script src="js/quan-ly-the-loai.js"></script>
+</body>
+</html>
