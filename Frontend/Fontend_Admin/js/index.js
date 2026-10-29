@@ -39,7 +39,6 @@ function hienThiDanhSachTruyen() {
     const tbody = document.getElementById('bangDanhSachTruyen');
     tbody.innerHTML = '';
     
-    // Sửa colspan thành 6
     if(listHienThi.length === 0) tbody.innerHTML = '<tr><td colspan="6" style="text-align: center;">Chưa có truyện nào!</td></tr>';
 
     listHienThi.forEach(truyen => {
@@ -92,10 +91,15 @@ window.xemChiTietTruyen = function(id) {
         document.getElementById('btnChuyenSuaThongTin').onclick = function() { dongModalChiTiet(); moModalSuaTruyen(id); };
         document.getElementById('btnChuyenQuanLyChuong').onclick = function() { window.location.href = `quan-ly-chuong.html?truyenId=${id}`; };
         document.getElementById('btnXoaTruyenModal').onclick = function() {
-            if(confirm("Xác nhận xóa vĩnh viễn bộ truyện này?")) {
+            hopThoaiXacNhan("Xác nhận xóa vĩnh viễn toàn bộ dữ liệu của bộ truyện này?", () => {
                 fetch(`${BASE_API}/v1/truyen/${id}`, { method: 'DELETE', headers: { 'Authorization': `Bearer ${token}` } })
-                .then(res => res.text()).then(msg => { alert(msg); dongModalChiTiet(); taiDanhSachTruyen(); });
-            }
+                .then(res => res.text())
+                .then(msg => { 
+                    thongBaoNhanh(msg, 'success'); 
+                    dongModalChiTiet(); 
+                    taiDanhSachTruyen(); 
+                });
+            });
         };
         document.getElementById('modalChiTietTruyen').classList.add('show');
     });
@@ -164,7 +168,7 @@ window.dongModalTruyen = function() { document.getElementById('modalTruyen').cla
 window.luuTruyen = function() {
     const idTruyen = document.getElementById('adTruyenId').value; 
     const ten = document.getElementById('adTenTruyen').value.trim();
-    if(!ten) { alert("Chưa nhập tên truyện!"); return; }
+    if(!ten) { thongBaoNhanh("Chưa nhập tên truyện!", 'error'); return; }
     const dataGui = {
         tenTruyen: ten, tacGia: document.getElementById('adTacGia').value.trim(), 
         trangThai: document.getElementById('adTrangThai').value, moTaTruyen: document.getElementById('adMoTa').value.trim(), 
@@ -180,7 +184,7 @@ window.luuTruyen = function() {
 
     fetch(urlAPI, {
         method: phuongThuc, headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }, body: JSON.stringify(dataGui)
-    }).then(res => res.json()).then(data => { alert("Thành công!"); dongModalTruyen(); taiDanhSachTruyen(); });
+    }).then(res => res.json()).then(data => { thongBaoNhanh("Đăng truyện thành công!", 'success'); dongModalTruyen(); taiDanhSachTruyen(); });
 }
 
 window.dangXuatAdmin = function() { localStorage.removeItem('admin_token'); window.location.href = 'login.html'; }

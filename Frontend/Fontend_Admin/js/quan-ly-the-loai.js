@@ -61,7 +61,7 @@ window.luuTheLoai = function() {
     const tenTL = document.getElementById('adTenTheLoai').value.trim();
 
     if (!tenTL) {
-        alert("Vui lòng nhập tên thể loại!");
+        thongBaoNhanh("Vui lòng nhập tên thể loại!", 'error');
         return;
     }
 
@@ -84,27 +84,30 @@ window.luuTheLoai = function() {
     })
     .then(res => res.json())
     .then(data => {
-        alert("Lưu thành công!");
+        thongBaoNhanh("Lưu thể loại thành công!", 'success');
         dongModalTheLoai();
         taiDanhSachTheLoai(); // Tải lại bảng ngay lập tức
     })
-    .catch(err => alert("Lỗi hệ thống khi lưu thể loại!"));
+    .catch(err => thongBaoNhanh("Lỗi hệ thống khi lưu thể loại!", 'error'));
 }
 
 // 4. XÓA THỂ LOẠI
 window.xoaTheLoai = function(id) {
-    if (confirm("Xác nhận xóa vĩnh viễn thể loại này? Cảnh báo: Các bộ truyện đang chứa thể loại này có thể bị ảnh hưởng!")) {
+    hopThoaiXacNhan("Xác nhận xóa vĩnh viễn thể loại này? Cảnh báo: Các bộ truyện đang chứa thể loại này có thể bị ảnh hưởng!", () => {
+        
+        // Đoạn code bên trong này chỉ chạy khi người dùng bấm "Đồng ý Xóa"
         fetch(`${BASE_API}/v1/the-loai/${id}`, {
             method: 'DELETE',
             headers: { 'Authorization': `Bearer ${token}` }
         })
         .then(res => res.text())
         .then(msg => {
-            alert(msg); // Hiện câu thông báo từ Backend
+            thongBaoNhanh(msg, 'success'); 
             taiDanhSachTheLoai();
         })
-        .catch(err => alert("Lỗi khi xóa thể loại!"));
-    }
+        .catch(err => thongBaoNhanh("Lỗi khi xóa thể loại!", 'error'));
+        
+    });
 }
 
 // 5. CÁC HÀM CƠ BẢN CỦA ADMIN

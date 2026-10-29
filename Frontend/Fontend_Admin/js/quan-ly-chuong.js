@@ -3,7 +3,10 @@ const token = localStorage.getItem('admin_token');
 
 const urlParams = new URLSearchParams(window.location.search);
 const currentTruyenId = urlParams.get('truyenId');
-if (!currentTruyenId) { alert("Vui lòng chọn truyện!"); window.location.href = 'quan-ly-nang-cao.html'; }
+if (!currentTruyenId) { 
+    thongBaoNhanh("Vui lòng chọn truyện!", 'error'); 
+    setTimeout(() => window.location.href = 'quan-ly-nang-cao.html', 1500); 
+}
 
 let mangAnhChuongLuuTru = []; 
 
@@ -98,19 +101,23 @@ window.uploadNhieuAnh = async function(event) {
 window.luuChuong = function() {
     const chuongId = document.getElementById('adChuongId').value;
     const tenChuong = document.getElementById('adTenChuong').value.trim();
-    if(!tenChuong) { alert("Chưa nhập tên chương!"); return; }
+    if(!tenChuong) { thongBaoNhanh("Chưa nhập tên chương!", 'error'); return; }
     
     const dataGui = { tenChuong: tenChuong, truyen: { id: currentTruyenId }, danhSachAnh: mangAnhChuongLuuTru.map(tenAnh => ({ urlAnh: tenAnh })) };
     fetch(chuongId ? `${BASE_API}/v1/chuong/${chuongId}` : `${BASE_API}/v1/chuong`, {
         method: chuongId ? 'PUT' : 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }, body: JSON.stringify(dataGui)
-    }).then(res => res.json()).then(() => { alert("Thành công!"); dongModalChuong(); taiDanhSachChuong(); });
+    }).then(() => { thongBaoNhanh("Đăng chương thành công!", 'success'); dongModalChuong(); taiDanhSachChuong(); });
 }
 
 window.xoaChuong = function(chuongId) {
-    if(confirm("Xóa vĩnh viễn chương này?")) {
+    hopThoaiXacNhan("Bạn có chắc chắn muốn xóa vĩnh viễn chương này không?", () => {
         fetch(`${BASE_API}/v1/chuong/${chuongId}`, { method: 'DELETE', headers: { 'Authorization': `Bearer ${token}` } })
-        .then(res => res.text()).then(msg => { alert(msg); taiDanhSachChuong(); });
-    }
+        .then(res => res.text())
+        .then(msg => { 
+            thongBaoNhanh(msg, 'success'); 
+            taiDanhSachChuong(); 
+        });
+    });
 }
 window.dangXuatAdmin = function() { localStorage.removeItem('admin_token'); window.location.href = 'login.html'; }
 document.addEventListener('DOMContentLoaded', () => { taiThongTinTruyen(); taiDanhSachChuong(); });

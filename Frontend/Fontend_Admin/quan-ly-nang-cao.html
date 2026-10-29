@@ -16,14 +16,18 @@
             <li><a href="index.html"><i class="fas fa-book"></i> Quản lý Truyện</a></li>
             <li class="active"><a href="quan-ly-nang-cao.html"><i class="fas fa-cogs"></i> Quản lý Nâng cao</a></li>
             <li class="active"><a href="quan-ly-the-loai.html"><i class="fas fa-tags"></i> Quản lý Thể loại</a></li>
-            <li><a href="http://127.0.0.1:5500/index.html" target="_blank"><i class="fas fa-external-link-alt"></i> Xem Web Độc giả</a></li>
+            <li><a href="#" onclick="chuyenSangWebDocGia()"><i class="fas fa-external-link-alt"></i> Xem Web Độc giả</a></li>
             <li><a href="#" style="color: #e74c3c;" onclick="dangXuatAdmin()"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a></li>
         </ul>
     </aside>
 
     <main class="admin-main">
         <header class="admin-header nang-cao-header">
-            <h2>Quản lý Nâng cao</h2>
+            <!-- Đưa Tiêu đề và Nút bấm vào 1 flexbox dàn ngang -->
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2 style="margin: 0;">Quản lý Nâng cao</h2>
+                <button class="btn-them-moi" onclick="moModalTruyen()"><i class="fas fa-plus"></i> Đăng Truyện Mới</button>
+            </div>
             
             <div class="filter-container">
                 <!-- Hàng 1: Ô tìm kiếm -->
@@ -166,8 +170,8 @@
             </div>
 
             <div class="modal-actions">
-                <button class="btn-huy" onclick="dongModalSuaTruyen()">Hủy</button>
-                <button class="btn-luu" onclick="luuSuaTruyen()">Lưu Cập Nhật</button>
+                <button class="btn-huy" onclick="dongModalTruyen()">Hủy</button>
+                <button class="btn-luu" onclick="luuTruyen()">Lưu Truyện</button>
             </div>
         </div>
     </div>

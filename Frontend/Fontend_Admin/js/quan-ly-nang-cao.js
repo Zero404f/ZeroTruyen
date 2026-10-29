@@ -158,18 +158,28 @@ window.xemChiTietTruyen = function(id) {
         document.getElementById('btnChuyenSuaThongTin').onclick = function() { dongModalChiTiet(); moModalSuaTruyen(id); };
         document.getElementById('btnChuyenQuanLyChuong').onclick = function() { window.location.href = `quan-ly-chuong.html?truyenId=${id}`; };
         document.getElementById('btnXoaTruyenModal').onclick = function() {
-            if(confirm("Xác nhận xóa vĩnh viễn bộ truyện này?")) {
+            hopThoaiXacNhan("Xác nhận xóa vĩnh viễn toàn bộ dữ liệu của bộ truyện này?", () => {
                 fetch(`${BASE_API}/v1/truyen/${id}`, { method: 'DELETE', headers: { 'Authorization': `Bearer ${token}` } })
-                .then(res => res.text()).then(msg => { alert(msg); dongModalChiTiet(); taiDanhSachTruyen(); });
-            }
+                .then(res => res.text())
+                .then(msg => { 
+                    thongBaoNhanh(msg, 'success'); 
+                    dongModalChiTiet(); 
+                    taiDanhSachTruyen(); 
+                });
+            });
         };
         document.getElementById('modalChiTietTruyen').classList.add('show');
     });
 }
 window.dongModalChiTiet = function() { document.getElementById('modalChiTietTruyen').classList.remove('show'); }
 
+// Đóng form (dùng chung cho cả Thêm và Sửa)
+window.dongModalTruyen = function() { document.getElementById('modalTruyen').classList.remove('show'); }
+
+// Mở form SỬA TRUYỆN (vẫn giữ logic cũ để tải dữ liệu)
 window.moModalSuaTruyen = function(id) {
     fetch(`${BASE_API}/v1/truyen/${id}`).then(res => res.json()).then(truyen => {
+        document.getElementById('modalTitle').innerText = 'Cập nhật Truyện';
         document.getElementById('adTruyenId').value = truyen.id; 
         document.getElementById('adTenTruyen').value = truyen.tenTruyen;
         document.getElementById('adTacGia').value = truyen.tacGia || '';
@@ -183,22 +193,60 @@ window.moModalSuaTruyen = function(id) {
         document.getElementById('modalTruyen').classList.add('show');
     });
 }
-window.dongModalSuaTruyen = function() { document.getElementById('modalTruyen').classList.remove('show'); }
 
-window.luuSuaTruyen = function() {
+// Mở form trống để ĐĂNG TRUYỆN MỚI
+window.moModalTruyen = function() {
+    theLoaiDaChon = []; veDanhSachTag();
+    document.getElementById('modalTitle').innerText = 'Đăng Truyện Mới';
+    document.getElementById('adTruyenId').value = ''; 
+    document.getElementById('adTenTruyen').value = ''; 
+    document.getElementById('adTacGia').value = '';
+    document.getElementById('adMoTa').value = ''; 
+    document.getElementById('adTrangThai').value = 'Đang ra';
+    document.getElementById('adAnhBiaLuuTru').value = ''; 
+    document.getElementById('adAnhBiaPreview').src = 'https://via.placeholder.com/200x280?text=Chon+Anh';
+    document.getElementById('modalTruyen').classList.add('show');
+}
+
+// LƯU TRUYỆN (Dùng chung "2 trong 1" cho cả Thêm Mới và Cập Nhật)
+window.luuTruyen = function() {
     const idTruyen = document.getElementById('adTruyenId').value; 
     const ten = document.getElementById('adTenTruyen').value.trim();
-    if(!ten) { alert("Chưa nhập tên truyện!"); return; }
+    
+    if(!ten) { 
+        thongBaoNhanh("Chưa nhập tên truyện!", 'error'); 
+        return; 
+    }
     
     const dataGui = {
-        tenTruyen: ten, tacGia: document.getElementById('adTacGia').value.trim(), 
-        trangThai: document.getElementById('adTrangThai').value, moTaTruyen: document.getElementById('adMoTa').value.trim(), 
-        anhBia: document.getElementById('adAnhBiaLuuTru').value, danhSachTheLoai: theLoaiDaChon.map(tl => ({ id: tl.id }))
+        tenTruyen: ten, 
+        tacGia: document.getElementById('adTacGia').value.trim(), 
+        trangThai: document.getElementById('adTrangThai').value, 
+        moTaTruyen: document.getElementById('adMoTa').value.trim(), 
+        anhBia: document.getElementById('adAnhBiaLuuTru').value, 
+        danhSachTheLoai: theLoaiDaChon.map(tl => ({ id: tl.id }))
     };
 
-    fetch(`${BASE_API}/v1/truyen/${idTruyen}`, {
-        method: 'PUT', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }, body: JSON.stringify(dataGui)
-    }).then(res => res.json()).then(data => { alert("Cập nhật thành công!"); dongModalSuaTruyen(); taiDanhSachTruyen(); });
+    let urlAPI = `${BASE_API}/v1/truyen`;
+    let phuongThuc = 'POST'; // Mặc định là Thêm mới
+    let cauThongBao = "Đăng truyện mới thành công!";
+
+    // Nếu thẻ ẩn adTruyenId có chứa số ID, tức là đang Cập nhật (Sửa)
+    if (idTruyen) {
+        urlAPI = `${BASE_API}/v1/truyen/${idTruyen}`; 
+        phuongThuc = 'PUT'; 
+        cauThongBao = "Cập nhật truyện thành công!";
+    }
+
+    fetch(urlAPI, {
+        method: phuongThuc, 
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }, 
+        body: JSON.stringify(dataGui)
+    }).then(res => res.json()).then(data => { 
+        thongBaoNhanh(cauThongBao, 'success'); 
+        dongModalTruyen(); 
+        taiDanhSachTruyen(); 
+    }).catch(err => thongBaoNhanh("Lỗi khi lưu truyện!", 'error'));
 }
 
 window.chonTheLoai = function(selectObj) {
@@ -209,7 +257,9 @@ window.chonTheLoai = function(selectObj) {
     }
     selectObj.value = ""; 
 }
+
 window.xoaTag = function(idTL) { theLoaiDaChon = theLoaiDaChon.filter(tl => tl.id !== idTL); veDanhSachTag(); }
+
 function veDanhSachTag() {
     const khung = document.getElementById('khungChuaTag'); khung.innerHTML = '';
     if (theLoaiDaChon.length === 0) { khung.innerHTML = '<span style="color:#aaa; font-size:13px;">Chưa chọn thể loại nào</span>'; return; }
@@ -224,6 +274,7 @@ window.uploadAnhBia = function(event) {
         if(!linkTraVe.includes("Lỗi")) { document.getElementById('adAnhBiaLuuTru').value = linkTraVe.split('/').pop(); document.getElementById('adAnhBiaPreview').src = linkTraVe; }
     });
 }
+
 window.dangXuatAdmin = function() { localStorage.removeItem('admin_token'); window.location.href = 'login.html'; }
 document.addEventListener('DOMContentLoaded', () => { taiTheLoaiAdmin(); taiDanhSachTruyen(); });
 
