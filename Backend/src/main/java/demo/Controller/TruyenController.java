@@ -9,13 +9,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 import java.util.List;
 
 @RestController
 @RequestMapping("/v1/truyen")
-
 public class TruyenController {
     @Autowired
     private TruyenRepository truyenRepository;
@@ -38,7 +38,10 @@ public class TruyenController {
     //Thêm một bộ truyện mới vào Database
     @PostMapping
     public Truyen themTruyen(@RequestBody Truyen truyen){
-        // Tự động lưu dữ liệu nhận được xuống MySQL
+        if (truyen.getThoiGianCapNhat() == null) {
+            truyen.setThoiGianCapNhat(LocalDateTime.now());
+        }
+        // Tự động lưu dữ liệu nhận được xuống Data base
         return truyenRepository.save(truyen);
     }
 
@@ -58,14 +61,21 @@ public class TruyenController {
             truyenCu.setAnhBia(truyenMoi.getAnhBia());
             truyenCu.setTrangThai(truyenMoi.getTrangThai());
             truyenCu.setMoTaTruyen(truyenMoi.getMoTaTruyen());
+            // Cập nhật lại danh sách thể loại và thời gian sửa
+            if (truyenMoi.getDanhSachTheLoai() != null) {
+                truyenCu.setDanhSachTheLoai(truyenMoi.getDanhSachTheLoai());
+            }
+            truyenCu.setThoiGianCapNhat(LocalDateTime.now());
             return truyenRepository.save(truyenCu);
         }).orElse(null);
     }
+
     //Xóa truyện
+    @Transactional
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
     public String xoaTruyen(@PathVariable Long id){
-        truyenRepository.deleteById(id);
+        truyenRepository.findById(id).ifPresent(truyen -> truyenRepository.delete(truyen));
         return "Đã xóa thành công truyện id số: "+id;
     }
 
@@ -82,7 +92,7 @@ public class TruyenController {
     }
 
     // Tìm kiếm nâng cao (Từ khóa, Thể loại, Trạng thái, Sắp xếp, Số chương)
-    @Transactional // THÊM DÒNG NÀY ĐỂ GIỮ KẾT NỐI DB KHI ĐẾM SỐ CHƯƠNG
+    @Transactional // GIỮ KẾT NỐI DB KHI ĐẾM SỐ CHƯƠNG
     @GetMapping("/tim-kiem-nang-cao")
     public List<Truyen> timKiemNangCao(
             @RequestParam(required = false) String tuKhoa,
@@ -91,7 +101,7 @@ public class TruyenController {
             @RequestParam(required = false) String sapXep,
             @RequestParam(required = false) String soChuong) {
 
-        // 1. Tạo danh sách CÓ THỂ CHỈNH SỬA (ArrayList) để tránh lỗi khi sort
+        // 1. Tạo danh sách có thể chỉnh sửa
         List<Truyen> danhSach = new ArrayList<>(truyenRepository.timKiemNangCao(tuKhoa, theLoaiId, trangThai));
 
         // 2. Lọc theo Số chương bằng Java
@@ -103,7 +113,7 @@ public class TruyenController {
                 if (soChuong.equals("100-500")) return tongSoChuong >= 100 && tongSoChuong <= 500;
                 if (soChuong.equals("tren-500")) return tongSoChuong > 500;
                 return true;
-            }).collect(Collectors.toList()); // Dùng collect thay cho toList() để an toàn
+            }).collect(Collectors.toList());
         }
 
         // 3. Xử lý Sắp xếp bằng Java
@@ -115,8 +125,15 @@ public class TruyenController {
                     if (t2.getThoiGianCapNhat() == null) return -1;
                     return t1.getThoiGianCapNhat().compareTo(t2.getThoiGianCapNhat());
                 });
+            } else if (sapXep.equals("xem-nhieu")) {
+                // SẮP XẾP THEO LƯỢT XEM NHIỀU NHẤT
+                danhSach.sort((t1, t2) -> {
+                    int view1 = t1.getLuotXem() != null ? t1.getLuotXem() : 0;
+                    int view2 = t2.getLuotXem() != null ? t2.getLuotXem() : 0;
+                    return Integer.compare(view2, view1);
+                });
             } else {
-                // SẮP XẾP THEO THỜI GIAN MỚI CẬP NHẤT (Mặc định)
+                // SẮP XẾP THEO THỜI GIAN MỚI CẬP NHẬT (Mặc định)
                 danhSach.sort((t1, t2) -> {
                     if (t1.getThoiGianCapNhat() == null) return 1;
                     if (t2.getThoiGianCapNhat() == null) return -1;

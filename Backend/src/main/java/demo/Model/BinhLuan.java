@@ -35,12 +35,12 @@ public class BinhLuan {
     // Liên kết Bình luận với Chương (Để trống/null nếu là bình luận chung)
     @ManyToOne
     @JoinColumn(name = "chuong_id")
-    @JsonIgnore
+    @JsonIgnoreProperties({"danhSachAnh", "truyen", "danhSachBinhLuan", "danhSachLichSuDoc"})
     private Chuong chuong;
 
     // Người viết với bình luận
     @ManyToOne
     @JoinColumn(name = "nguoi_dung_id")
-    @JsonIgnoreProperties({"taiKhoan", "danhSachTruyenYeuThich", "danhSachLichSu"})
+    @JsonIgnoreProperties({"taiKhoan", "danhSachTaiKhoan", "danhSachTruyenYeuThich", "danhSachLichSu"})
     private NguoiDung nguoiDung;
 }

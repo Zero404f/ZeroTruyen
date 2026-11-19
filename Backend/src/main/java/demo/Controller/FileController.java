@@ -8,16 +8,23 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
 @RequestMapping("/v1/file")
 public class FileController {
     private static final String THU_MUC_LUU_TRU = "uploads/";
+    private static final List<String> DUOI_ANH_HOP_LE = Arrays.asList(".jpg", ".jpeg", ".png", ".gif", ".webp");
 
     @PostMapping("/tai-len")
     public String taiAnhLen(@RequestParam("file") MultipartFile file) {
         try {
+            if (file == null || file.isEmpty()) {
+                return "Lỗi: File tải lên đang bị trống!";
+            }
+
             // 1. Kiểm tra xem đã có thư mục "uploads" chưa, nếu chưa thì tự động tạo mới
             File thuMuc = new File(THU_MUC_LUU_TRU);
             if (!thuMuc.exists()) {
@@ -26,8 +33,14 @@ public class FileController {
 
             // 2. Đổi tên file để tránh việc 2 ảnh trùng tên nhau (Dùng UUID sinh ra mã ngẫu nhiên)
             String tenGoc = file.getOriginalFilename();
+            if (tenGoc == null || !tenGoc.contains(".")) {
+                return "Lỗi: Tên file không hợp lệ!";
+            }
             // Lấy đuôi file (ví dụ: .jpg, .png)
-            String duoiFile = tenGoc.substring(tenGoc.lastIndexOf(".")); 
+            String duoiFile = tenGoc.substring(tenGoc.lastIndexOf(".")).toLowerCase();
+            if (!DUOI_ANH_HOP_LE.contains(duoiFile)) {
+                return "Lỗi: Chỉ cho phép tải lên file ảnh (.jpg, .png, .gif, .webp)!";
+            }
             // Ghép mã ngẫu nhiên với đuôi file
             String tenMoi = UUID.randomUUID().toString() + duoiFile; 
 
@@ -36,7 +49,7 @@ public class FileController {
             Files.write(duongDanLuuFile, file.getBytes());
 
             // 4. Trả về đường link web cho frontend sử dụng
-           // Dùng công cụ của Spring Boot để tự động sinh link
+            // Dùng công cụ của Spring Boot để tự động sinh link
             String duongDanDayDu = org.springframework.web.servlet.support.ServletUriComponentsBuilder
                     .fromCurrentContextPath() // Tự động lấy tên miền hiện tại 
                     .path("/uploads/")  // Nối thêm thư mục kho

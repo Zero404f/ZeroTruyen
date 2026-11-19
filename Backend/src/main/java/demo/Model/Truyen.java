@@ -1,7 +1,9 @@
 package demo.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import lombok.AllArgsConstructor;
@@ -31,7 +33,10 @@ public class Truyen {
     private String tacGia;
     private String anhBia;
     private String trangThai;
+
+    @Column(columnDefinition = "TEXT") // Cho phép lưu mô tả dài vượt quá 255 ký tự
     private String moTaTruyen;
+
     private Double diemTrungBinh; 
     private Integer luotDanhGia;
     @Builder.Default
@@ -50,7 +55,24 @@ public class Truyen {
     private List<TheLoai> danhSachTheLoai;
 
     // Khai báo liên kết 1 Truyện -> Nhiều Chương
-    @OneToMany(mappedBy = "truyen", fetch = jakarta.persistence.FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "truyen", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore 
     private List<Chuong> danhSachChuong;
+
+    // Tự động dọn dẹp dữ liệu liên quan khi xóa Truyện
+    @OneToMany(mappedBy = "truyen", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<BinhLuan> danhSachBinhLuan;
+
+    @OneToMany(mappedBy = "truyen", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<DanhGia> danhSachDanhGia;
+
+    @OneToMany(mappedBy = "truyen", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<LichSuDoc> danhSachLichSuDoc;
+
+    @OneToMany(mappedBy = "truyen", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<TheoDoiTruyen> danhSachTheoDoi;
 }

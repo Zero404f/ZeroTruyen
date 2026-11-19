@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -56,6 +57,8 @@ public class BaoMatConfig {
         http.cors(cors -> cors.configurationSource(corsConfigurationSource()));
 
         http.csrf(csrf -> csrf.disable()) 
+            // Không lưu Session trên server vì hệ thống dùng JWT
+            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
             // Cho phép thả tự do Đăng ký, Đăng nhập
             .requestMatchers("/v1/nguoi-dung/dang-ky", "/v1/nguoi-dung/dang-nhap", "/v1/nguoi-dung/google-login").permitAll()

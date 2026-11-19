@@ -20,7 +20,6 @@ import jakarta.validation.constraints.Size;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-
 public class TaiKhoan {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,6 +30,10 @@ public class TaiKhoan {
     private String matKhau;
     private String quyen; // Role-Admin/Role-User
 
+    // Biến tạm nhận Email khi đăng ký để lưu sang bảng NguoiDung
+    @Transient
+    private String email;
+
     //Khai báo thêm biến nhận Token
     @Transient
     private String tokenCloudflare;
@@ -40,6 +43,4 @@ public class TaiKhoan {
     @ManyToOne
     @JoinColumn(name = "nguoi_dung_id") 
     private NguoiDung nguoiDung;
-
-    
 }

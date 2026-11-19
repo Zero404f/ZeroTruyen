@@ -10,8 +10,6 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 import java.util.List;
 
-
-
 @Entity // Đánh dấu đây là một bảng trong Database
 @NoArgsConstructor  // Bắt buộc phải có khi dùng Database
 @AllArgsConstructor // Bắt buộc phải có khi dùng Database
@@ -22,7 +20,8 @@ public class Chuong {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String tenChuong;
-    @OneToMany(mappedBy = "chuong", cascade = CascadeType.ALL)
+
+    @OneToMany(mappedBy = "chuong", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<AnhChuong> danhSachAnh;
 
     @Builder.Default
@@ -35,4 +34,13 @@ public class Chuong {
     @JoinColumn(name = "truyen_id") //Tạo cột lưu id của bảng Truyen
     @JsonIgnore 
     private Truyen truyen;
+
+    // Tự động dọn dẹp bình luận và lịch sử khi xóa Chương
+    @OneToMany(mappedBy = "chuong", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<BinhLuan> danhSachBinhLuan;
+
+    @OneToMany(mappedBy = "chuong", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<LichSuDoc> danhSachLichSuDoc;
 }

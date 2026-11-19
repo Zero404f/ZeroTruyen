@@ -8,8 +8,12 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebConfig implements WebMvcConfigurer{
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        // Hỗ trợ đường dẫn /uploads/anh_bia/** tìm ở cả 2 thư mục
+        registry.addResourceHandler("/uploads/anh_bia/**")
+                .addResourceLocations("file:uploads/anh_bia/", "file:uploads/");
+
         // Biến thư mục "uploads" trong máy tính thành đường link công khai trên web
         registry.addResourceHandler("/uploads/**")
-                .addResourceLocations("file:uploads/");
+                .addResourceLocations("file:uploads/", "file:uploads/anh_bia/");
     }
 }

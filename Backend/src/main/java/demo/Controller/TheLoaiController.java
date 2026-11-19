@@ -9,17 +9,19 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/v1/the-loai")
-
 public class TheLoaiController{
     @Autowired
     private TheLoaiRepository theLoaiRepository;
+
     //Thêm thể loại
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping
     public TheLoai themTheLoai(@RequestBody TheLoai theLoaiMoi) {
-            return theLoaiRepository.save(theLoaiMoi);
+        return theLoaiRepository.save(theLoaiMoi);
     }
 
     //Sửa thể loại
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PutMapping("/{id}")
     public TheLoai suaTheLoai(@PathVariable Long id, @RequestBody TheLoai theLoaiMoi) {
         return theLoaiRepository.findById(id).map(theLoaiCu ->{
@@ -27,11 +29,13 @@ public class TheLoaiController{
             return theLoaiRepository.save(theLoaiCu);
         }).orElse(null);
     }
+
     //Xóa thể loại
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
     public String xoaTheLoai(@PathVariable Long id){
         theLoaiRepository.deleteById(id);
-        return "Đã xóa thành công thể loại số"+id;
+        return "Đã xóa thành công thể loại số: " + id;
     }
 
     //Xem danh sách thể loại
@@ -39,5 +43,4 @@ public class TheLoaiController{
     public List<TheLoai> xemDanhSachTheLoai() {
         return theLoaiRepository.findAll();
     }
-    
 }

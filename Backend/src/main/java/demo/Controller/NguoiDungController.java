@@ -62,9 +62,17 @@ public class NguoiDungController {
             return kiemDuyet.getAllErrors().get(0).getDefaultMessage();
         }
 
+        // Kiểm tra trùng tên đăng nhập để tránh lỗi hệ thống khi đăng nhập
+        if (taiKhoanRepository.findByTenDangNhap(taiKhoanMoi.getTenDangNhap()) != null) {
+            return "Lỗi: Tên đăng nhập đã tồn tại, vui lòng chọn tên khác!";
+        }
+
         // Nếu dữ liệu sạch, cho phép chạy tiếp đoạn code lưu vào Database cũ
         NguoiDung hoSoMoi = new NguoiDung();
         hoSoMoi.setTenTaiKhoan(taiKhoanMoi.getTenDangNhap());
+        if (taiKhoanMoi.getEmail() != null && !taiKhoanMoi.getEmail().trim().isEmpty()) {
+            hoSoMoi.setEmail(taiKhoanMoi.getEmail().trim());
+        }
         NguoiDung hoSoDaLuu = nguoiDungRepository.save(hoSoMoi);
         taiKhoanMoi.setNguoiDung(hoSoDaLuu);
         taiKhoanMoi.setQuyen("ROLE_USER");
