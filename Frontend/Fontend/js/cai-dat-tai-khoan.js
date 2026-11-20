@@ -50,12 +50,23 @@ document.addEventListener("DOMContentLoaded", () => {
     fetch(`${API_URL_CD}/v1/nguoi-dung/thong-tin`, {
         headers: { 'Authorization': `Bearer ${tokenCD}` }
     })
-    .then(res => res.json())
+    .then(res => {
+        if (res.status === 401 || res.status === 403) {
+            alert("Phiên đăng nhập đã hết hạn, vui lòng đăng nhập lại!");
+            localStorage.removeItem('zero_token');
+            localStorage.removeItem('zero_user');
+            localStorage.removeItem('zero_avatar');
+            window.location.href = 'dang-nhap.html';
+            return null;
+        }
+        return res.json();
+    })
     .then(data => {
+        if (!data) return;
         document.getElementById('cdTen').value = data.tenTaiKhoan || '';
         document.getElementById('cdEmail').value = data.email || '';
         
-        // --- CẬP NHẬT XỬ LÝ AVATAR TẠI ĐÂY ---
+        // --- CẬP NHẬT XỬ LÝ AVATAR ---
         const imgElement = document.getElementById('anhDaiDienHienThi');
         let tenHienThi = data.tenTaiKhoan ? data.tenTaiKhoan : 'User';
 
@@ -117,9 +128,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
         fetch(`${API_URL_CD}/v1/file/tai-len`, {
             method: 'POST',
+            headers: { 'Authorization': `Bearer ${tokenCD}` },
             body: formData
         })
-        .then(res => res.text())
+        .then(res => {
+            if (!res.ok) throw new Error("Không thể tải ảnh (Mã lỗi: " + res.status + ")");
+            return res.text();
+        })
         .then(linkTraVe => {
             if (linkTraVe.includes("Lỗi")) {
                 alert(linkTraVe);

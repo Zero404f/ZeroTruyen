@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
     khungTruyen.innerHTML = '<p style="text-align: center; width: 100%;">Đang tải truyện...</p>';
 
     // 3. Phân loại URL gọi API Backend
-    let urlGoi = `${API}/v1/truyen`; 
+    let urlGoi = `${API}/v1/truyen?page=0&size=1000`; 
     if (theLoaiId !== 'tat-ca') {
         urlGoi = `${API}/v1/truyen/the-loai/${theLoaiId}`; 
     }
@@ -36,7 +36,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
             let html = '';
             danhSachTruyen.forEach(truyen => {
-                const linkAnh = truyen.anhBia ? `${API}/uploads/anh_bia/${truyen.anhBia}` : 'https://via.placeholder.com/220x280?text=Chua+co+anh';
+                const linkAnh = truyen.anhBia
+                    ? (truyen.anhBia.startsWith('http') ? truyen.anhBia : `${API}/uploads/anh_bia/${truyen.anhBia}`)
+                    : 'https://via.placeholder.com/220x280?text=Chua+co+anh';
                 
                 // Lấy số chương từ Backend gửi xuống
                 const soChuong = truyen.tongSoChuong || 0;

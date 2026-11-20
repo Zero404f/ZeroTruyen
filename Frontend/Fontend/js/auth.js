@@ -155,7 +155,8 @@ window.onload = function () {
 const btnDangKy = document.getElementById('btnThucHienDangKy');
 if (btnDangKy) {
     btnDangKy.addEventListener('click', () => {
-        const tenTaiKhoan = document.getElementById('dkTenTaiKhoan').value;
+        const tenTaiKhoan = document.getElementById('dkTenTaiKhoan').value.trim();
+        const email = document.getElementById('dkEmail') ? document.getElementById('dkEmail').value.trim() : '';
         const matKhau = document.getElementById('dkMatKhau').value;
         const xacNhanMatKhau = document.getElementById('dkXacNhanMatKhau').value;
         const thongBao = document.getElementById('thongBaoDangKy');
@@ -190,7 +191,7 @@ if (btnDangKy) {
         fetch(`${API_URL}/v1/nguoi-dung/dang-ky`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ tenDangNhap: tenTaiKhoan, matKhau: matKhau, tokenCloudflare: cfToken })
+            body: JSON.stringify({ tenDangNhap: tenTaiKhoan, email: email, matKhau: matKhau, tokenCloudflare: cfToken })
         })
         .then(async res => {
             const textData = await res.text();
