@@ -18,7 +18,9 @@ if (!truyenId) {
     fetch(`${BASE_API}/v1/truyen/${truyenId}`)
         .then(res => res.json())
         .then(truyen => {
-            const linkAnh = truyen.anhBia ? `${BASE_API}/uploads/anh_bia/${truyen.anhBia}` : 'https://via.placeholder.com/220x280?text=Chua+co+anh';
+            const linkAnh = truyen.anhBia
+                ? (truyen.anhBia.startsWith('http') ? truyen.anhBia : `${BASE_API}/uploads/anh_bia/${truyen.anhBia}`)
+                : 'https://via.placeholder.com/220x280?text=Chua+co+anh';
             const diem = truyen.diemTrungBinh || 0;
             const luot = truyen.luotDanhGia || 0;
             const diemHienThi = diem === 0 ? "0" : diem.toFixed(1);
@@ -68,6 +70,9 @@ if (!truyenId) {
                     </p>
                 </div>
             `;
+
+            // Gọi hàm kiểm tra ngay khi nút Theo dõi vừa được vẽ xong
+            kiemTraTrangThaiTheoDoi();
         })
         .catch(err => {
             console.error("Lỗi API Thông tin:", err);
@@ -214,7 +219,9 @@ if (!truyenId) {
     
     // A. Vẽ khung nhập liệu tùy theo trạng thái đăng nhập
     if(token) {
-        let avatarImg = avatarUser ? avatarUser : 'https://via.placeholder.com/50';
+        let avatarImg = avatarUser
+            ? (avatarUser.startsWith('http') ? avatarUser : `${BASE_API}/uploads/${avatarUser}`)
+            : 'https://via.placeholder.com/50';
         khuVucViet.innerHTML = `
             <img src="${avatarImg}" alt="Avatar" class="avatar-binh-luan">
             <div class="khung-nhap-lieu">
@@ -246,7 +253,9 @@ if (!truyenId) {
 
                 let html = '';
                 danhSach.forEach(bl => {
-                    let avt = (bl.nguoiDung && bl.nguoiDung.anhDaiDien) ? bl.nguoiDung.anhDaiDien : 'https://via.placeholder.com/50';
+                    let avt = (bl.nguoiDung && bl.nguoiDung.anhDaiDien)
+                        ? (bl.nguoiDung.anhDaiDien.startsWith('http') ? bl.nguoiDung.anhDaiDien : `${BASE_API}/uploads/${bl.nguoiDung.anhDaiDien}`)
+                        : 'https://via.placeholder.com/50';
                     let ten = (bl.nguoiDung && bl.nguoiDung.tenTaiKhoan) ? bl.nguoiDung.tenTaiKhoan : 'Người dùng ẩn danh';
                     
                     let thoiGianHienThi = "Vừa xong";
@@ -454,9 +463,6 @@ if (!truyenId) {
         })
         .catch(err => alert("Lỗi kết nối đến máy chủ!"));
     };
-
-    // Gọi hàm kiểm tra ngay khi mở trang
-    kiemTraTrangThaiTheoDoi();
 
 // =========================================================
 // CHỨC NĂNG: MODAL ĐÁNH GIÁ SAO VÀ VIẾT BÌNH LUẬN

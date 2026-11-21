@@ -11,7 +11,7 @@ function taoGiaoDienSao(diem) {
         } else if (diemXet >= i - 0.5) {
             saoHtml += '<i class="fas fa-star-half-alt"></i>'; // Sao khuyết một nửa
         } else {
-            saoHtml += '<i class="far fa-star"></i>'; // Sao rỗng (chưa đạt)
+            saoHtml += '<i class="far fa-star"></i>'; // Sao rỗng 
         }
     }
     return saoHtml;
@@ -31,6 +31,14 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         })
         .catch(err => console.error("Lỗi tải danh sách thể loại:", err));
+
+    // Nếu chuyển từ thanh tìm kiếm trên Header sang thì tự điền từ khóa và lọc luôn
+    const urlParams = new URLSearchParams(window.location.search);
+    const tuKhoaUrl = urlParams.get('tuKhoa');
+    if (tuKhoaUrl) {
+        document.getElementById('locTuKhoa').value = tuKhoaUrl;
+        thucHienTimKiemNangCao();
+    }
 });
 
 // 2. THỰC HIỆN GỌI API KHI BẤM NÚT LỌC TRUYỆN
@@ -69,7 +77,9 @@ window.thucHienTimKiemNangCao = function() {
 
             let html = '';
             danhSachTruyen.forEach(truyen => {
-                const linkAnh = truyen.anhBia ? `${API_URL_TK}/uploads/anh_bia/${truyen.anhBia}` : 'https://via.placeholder.com/220x280?text=Chua+co+anh';
+                const linkAnh = truyen.anhBia
+                    ? (truyen.anhBia.startsWith('http') ? truyen.anhBia : `${API_URL_TK}/uploads/anh_bia/${truyen.anhBia}`)
+                    : 'https://via.placeholder.com/220x280?text=Chua+co+anh';
                 
                 const soChuong = truyen.tongSoChuong || 0;
                 
