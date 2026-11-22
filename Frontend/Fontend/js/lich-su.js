@@ -144,7 +144,9 @@ function taiLichSuTaiKhoan() {
             let truyen = item.truyen;
             let chuong = item.chuong;
             
-            let linkAnh = truyen.anhBia ? `${API_URL}/uploads/anh_bia/${truyen.anhBia}` : 'https://via.placeholder.com/220x280?text=Chua+co+anh';
+            let linkAnh = truyen.anhBia
+                ? (truyen.anhBia.startsWith('http') ? truyen.anhBia : `${API_URL}/uploads/anh_bia/${truyen.anhBia}`)
+                : 'https://via.placeholder.com/220x280?text=Chua+co+anh';
             
             html += `
                 <div class="ls-item">

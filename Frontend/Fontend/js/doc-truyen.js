@@ -206,7 +206,9 @@ const khuVucViet = document.getElementById('khuVucVietBinhLuan');
 // A. Vẽ khung nhập liệu
 if(khuVucViet) {
     if(tokenUser) {
-        let avatarImg = avatarUser ? avatarUser : 'https://via.placeholder.com/50';
+        let avatarImg = avatarUser
+            ? (avatarUser.startsWith('http') ? avatarUser : `${API_URL}/uploads/${avatarUser}`)
+            : 'https://via.placeholder.com/50';
         khuVucViet.innerHTML = `
             <img src="${avatarImg}" alt="Avatar" class="avatar-binh-luan">
             <div class="khung-nhap-lieu">
@@ -243,7 +245,9 @@ window.taiBinhLuanChuong = function() {
 
             let html = '';
             danhSach.forEach(bl => {
-                let avt = (bl.nguoiDung && bl.nguoiDung.anhDaiDien) ? bl.nguoiDung.anhDaiDien : 'https://via.placeholder.com/50';
+                let avt = (bl.nguoiDung && bl.nguoiDung.anhDaiDien)
+                    ? (bl.nguoiDung.anhDaiDien.startsWith('http') ? bl.nguoiDung.anhDaiDien : `${API_URL}/uploads/${bl.nguoiDung.anhDaiDien}`)
+                    : 'https://via.placeholder.com/50';
                 let ten = (bl.nguoiDung && bl.nguoiDung.tenTaiKhoan) ? bl.nguoiDung.tenTaiKhoan : 'Người dùng ẩn danh';
                 
                 let thoiGianHienThi = "Vừa xong";

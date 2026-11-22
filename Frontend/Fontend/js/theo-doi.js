@@ -37,7 +37,9 @@ document.addEventListener("DOMContentLoaded", () => {
         let html = '';
         danhSach.forEach(item => {
             let truyen = item.truyen;
-            let linkAnh = truyen.anhBia ? `${API_URL_TD}/uploads/anh_bia/${truyen.anhBia}` : 'https://via.placeholder.com/220x280?text=Chua+co+anh';
+            let linkAnh = truyen.anhBia
+                ? (truyen.anhBia.startsWith('http') ? truyen.anhBia : `${API_URL_TD}/uploads/anh_bia/${truyen.anhBia}`)
+                : 'https://via.placeholder.com/220x280?text=Chua+co+anh';
             let soChuong = truyen.tongSoChuong || 0;
 
             html += `
