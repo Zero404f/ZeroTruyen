@@ -11,10 +11,20 @@ const SO_TRUYEN_MOT_TRANG = 20;
 let tuKhoaTimKiem = '';
 let theLoaiTimKiem = '';
 let trangThaiTimKiem = '';
-let sapXepTimKiem = 'newest';
+let sapXepTimKiem = 'time_desc';
 let soChuongTimKiem = '';
 
 if (!token) { window.location.href = 'login.html'; }
+
+function xuLyHetHanToken(res) {
+    if (res.status === 401 || res.status === 403) {
+        thongBaoNhanh("Phiên đăng nhập hết hạn hoặc không có quyền Admin! Vui lòng đăng nhập lại.", 'error');
+        localStorage.removeItem('admin_token');
+        setTimeout(() => window.location.href = 'login.html', 1500);
+        return true;
+    }
+    return false;
+}
 
 function taiTheLoaiAdmin() {
     fetch(`${BASE_API}/v1/the-loai`).then(res => res.json()).then(data => {
@@ -62,7 +72,7 @@ function hienThiDanhSachTruyen() {
     // 4. Lọc theo Số lượng chương
     if (soChuongTimKiem !== '') {
         list = list.filter(t => {
-            const soChuong = t.soChuong || (t.danhSachChuong ? t.danhSachChuong.length : 0);
+            const soChuong = t.tongSoChuong || 0;
             if (soChuongTimKiem === '0') return soChuong === 0;
             if (soChuongTimKiem === '1-50') return soChuong >= 1 && soChuong <= 50;
             if (soChuongTimKiem === '51-100') return soChuong >= 51 && soChuong <= 100;
@@ -160,12 +170,18 @@ window.xemChiTietTruyen = function(id) {
         document.getElementById('btnXoaTruyenModal').onclick = function() {
             hopThoaiXacNhan("Xác nhận xóa vĩnh viễn toàn bộ dữ liệu của bộ truyện này?", () => {
                 fetch(`${BASE_API}/v1/truyen/${id}`, { method: 'DELETE', headers: { 'Authorization': `Bearer ${token}` } })
-                .then(res => res.text())
-                .then(msg => { 
+                .then(res => {
+                    if (xuLyHetHanToken(res)) return null;
+                    if (!res.ok) throw new Error("Xóa truyện thất bại!");
+                    return res.text();
+                })
+                .then(msg => {
+                    if (!msg) return;
                     thongBaoNhanh(msg, 'success'); 
                     dongModalChiTiet(); 
                     taiDanhSachTruyen(); 
-                });
+                })
+                .catch(err => thongBaoNhanh(err.message || "Lỗi khi xóa truyện!", 'error'));
             });
         };
         document.getElementById('modalChiTietTruyen').classList.add('show');
@@ -188,6 +204,9 @@ window.moModalSuaTruyen = function(id) {
         if(truyen.anhBia) {
             document.getElementById('adAnhBiaLuuTru').value = truyen.anhBia;
             document.getElementById('adAnhBiaPreview').src = truyen.anhBia.startsWith('http') ? truyen.anhBia : `${BASE_API}/uploads/anh_bia/${truyen.anhBia}`;
+        } else {
+            document.getElementById('adAnhBiaLuuTru').value = '';
+            document.getElementById('adAnhBiaPreview').src = 'https://via.placeholder.com/200x280?text=Chon+Anh';
         }
         theLoaiDaChon = truyen.danhSachTheLoai ? [...truyen.danhSachTheLoai] : []; veDanhSachTag();
         document.getElementById('modalTruyen').classList.add('show');
@@ -242,11 +261,19 @@ window.luuTruyen = function() {
         method: phuongThuc, 
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }, 
         body: JSON.stringify(dataGui)
-    }).then(res => res.json()).then(data => { 
+    })
+    .then(res => {
+        if (xuLyHetHanToken(res)) return null;
+        if (!res.ok) throw new Error("Lỗi lưu truyện (Mã lỗi: " + res.status + ")");
+        return res.json();
+    })
+    .then(data => {
+        if (!data) return;
         thongBaoNhanh(cauThongBao, 'success'); 
         dongModalTruyen(); 
         taiDanhSachTruyen(); 
-    }).catch(err => thongBaoNhanh("Lỗi khi lưu truyện!", 'error'));
+    })
+    .catch(err => thongBaoNhanh(err.message || "Lỗi khi lưu truyện!", 'error'));
 }
 
 window.chonTheLoai = function(selectObj) {
@@ -270,9 +297,17 @@ window.uploadAnhBia = function(event) {
     const file = event.target.files[0]; if (!file) return;
     const formData = new FormData(); formData.append("file", file);
     fetch(`${BASE_API}/v1/file/tai-len`, { method: 'POST', body: formData, headers: { 'Authorization': `Bearer ${token}` }})
-    .then(res => res.text()).then(linkTraVe => {
+    .then(res => {
+        if (xuLyHetHanToken(res)) return null;
+        if (!res.ok) throw new Error("Lỗi tải ảnh!");
+        return res.text();
+    })
+    .then(linkTraVe => {
+        if (!linkTraVe) return;
         if(!linkTraVe.includes("Lỗi")) { document.getElementById('adAnhBiaLuuTru').value = linkTraVe.split('/').pop(); document.getElementById('adAnhBiaPreview').src = linkTraVe; }
-    });
+        else { thongBaoNhanh(linkTraVe, 'error'); }
+    })
+    .catch(err => thongBaoNhanh(err.message || "Lỗi kết nối khi tải ảnh!", 'error'));
 }
 
 window.dangXuatAdmin = function() { localStorage.removeItem('admin_token'); window.location.href = 'login.html'; }

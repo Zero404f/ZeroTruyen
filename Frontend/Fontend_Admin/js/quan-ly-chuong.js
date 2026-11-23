@@ -1,6 +1,18 @@
 const BASE_API = 'http://localhost:8080';
 const token = localStorage.getItem('admin_token');
 
+if (!token) { window.location.href = 'login.html'; }
+
+function xuLyHetHanToken(res) {
+    if (res.status === 401 || res.status === 403) {
+        thongBaoNhanh("Phiên đăng nhập hết hạn hoặc không có quyền Admin! Vui lòng đăng nhập lại.", 'error');
+        localStorage.removeItem('admin_token');
+        setTimeout(() => window.location.href = 'login.html', 1500);
+        return true;
+    }
+    return false;
+}
+
 const urlParams = new URLSearchParams(window.location.search);
 const currentTruyenId = urlParams.get('truyenId');
 if (!currentTruyenId) { 
@@ -9,6 +21,7 @@ if (!currentTruyenId) {
 }
 
 let mangAnhChuongLuuTru = []; 
+let sortableInstance = null;
 
 function taiThongTinTruyen() {
     fetch(`${BASE_API}/v1/truyen/${currentTruyenId}`).then(res => res.json())
@@ -40,6 +53,10 @@ window.taiDanhSachChuong = function() {
 function veDanhSachAnhPreview() {
     const previewDiv = document.getElementById('previewAnhChuong');
     previewDiv.innerHTML = '';
+    if (sortableInstance) {
+        sortableInstance.destroy();
+        sortableInstance = null;
+    }
     if(mangAnhChuongLuuTru.length === 0) { previewDiv.innerHTML = '<p style="color:#888; margin:auto;">Chưa có ảnh nào.</p>'; return; }
 
     mangAnhChuongLuuTru.forEach(tenAnh => {
@@ -53,7 +70,7 @@ function veDanhSachAnhPreview() {
             </div>`;
     });
 
-    new Sortable(previewDiv, {
+    sortableInstance = new Sortable(previewDiv, {
         animation: 150, ghostClass: 'sortable-ghost',
         onEnd: function () {
             const mangMoi = [];
@@ -91,6 +108,7 @@ window.uploadNhieuAnh = async function(event) {
         const formData = new FormData(); formData.append("file", files[i]);
         try {
             const res = await fetch(`${BASE_API}/v1/file/tai-len`, { method: 'POST', headers: { 'Authorization': `Bearer ${token}` }, body: formData });
+            if (xuLyHetHanToken(res)) return;
             const linkTraVe = await res.text();
             if(!linkTraVe.includes("Lỗi")) mangAnhChuongLuuTru.push(linkTraVe.split('/').pop());
         } catch(e) {}
@@ -103,21 +121,55 @@ window.luuChuong = function() {
     const tenChuong = document.getElementById('adTenChuong').value.trim();
     if(!tenChuong) { thongBaoNhanh("Chưa nhập tên chương!", 'error'); return; }
     
-    const dataGui = { tenChuong: tenChuong, truyen: { id: currentTruyenId }, danhSachAnh: mangAnhChuongLuuTru.map(tenAnh => ({ urlAnh: tenAnh })) };
-    fetch(chuongId ? `${BASE_API}/v1/chuong/${chuongId}` : `${BASE_API}/v1/chuong`, {
-        method: chuongId ? 'PUT' : 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }, body: JSON.stringify(dataGui)
-    }).then(() => { thongBaoNhanh("Đăng chương thành công!", 'success'); dongModalChuong(); taiDanhSachChuong(); });
+    const dataGui = { tenChuong: tenChuong, danhSachAnh: mangAnhChuongLuuTru.map(tenAnh => ({ urlAnh: tenAnh })) };
+    const urlAPI = chuongId ? `${BASE_API}/v1/chuong/${chuongId}` : `${BASE_API}/v1/truyen/${currentTruyenId}/chuong`;
+    const phuongThuc = chuongId ? 'PUT' : 'POST';
+    const cauThongBao = chuongId ? "Cập nhật chương thành công!" : "Đăng chương thành công!";
+
+    fetch(urlAPI, {
+        method: phuongThuc, headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }, body: JSON.stringify(dataGui)
+    })
+    .then(res => {
+        if (xuLyHetHanToken(res)) return null;
+        if (!res.ok) throw new Error("Lỗi lưu chương (Mã lỗi: " + res.status + ")");
+        return res.json();
+    })
+    .then(data => {
+        if (!data) return;
+        thongBaoNhanh(cauThongBao, 'success');
+        dongModalChuong();
+        taiDanhSachChuong();
+    })
+    .catch(err => thongBaoNhanh(err.message || "Lỗi khi lưu chương!", 'error'));
 }
 
 window.xoaChuong = function(chuongId) {
     hopThoaiXacNhan("Bạn có chắc chắn muốn xóa vĩnh viễn chương này không?", () => {
         fetch(`${BASE_API}/v1/chuong/${chuongId}`, { method: 'DELETE', headers: { 'Authorization': `Bearer ${token}` } })
-        .then(res => res.text())
-        .then(msg => { 
+        .then(res => {
+            if (xuLyHetHanToken(res)) return null;
+            if (!res.ok) throw new Error("Xóa chương thất bại!");
+            return res.text();
+        })
+        .then(msg => {
+            if (!msg) return;
             thongBaoNhanh(msg, 'success'); 
             taiDanhSachChuong(); 
-        });
+        })
+        .catch(err => thongBaoNhanh(err.message || "Lỗi khi xóa chương!", 'error'));
     });
 }
+
 window.dangXuatAdmin = function() { localStorage.removeItem('admin_token'); window.location.href = 'login.html'; }
+
+// Hàm chuyển sang Web Độc giả với quyền Admin
+window.chuyenSangWebDocGia = function() {
+    const adminToken = localStorage.getItem('admin_token');
+    if (adminToken) {
+        localStorage.setItem('zero_token', adminToken);
+        localStorage.setItem('zero_user', 'ADMIN HỆ THỐNG'); 
+    }
+    window.open('../Fontend/index.html', '_blank');
+};
+
 document.addEventListener('DOMContentLoaded', () => { taiThongTinTruyen(); taiDanhSachChuong(); });
