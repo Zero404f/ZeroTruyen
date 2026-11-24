@@ -1,8 +1,18 @@
 const BASE_API = 'http://localhost:8080';
 const token = localStorage.getItem('admin_token'); 
 
-// Nếu chưa đăng nhập thì đuổi về trang Login
+// Nếu chưa đăng nhập thì chuyển về trang Login
 if (!token) { window.location.href = 'login.html'; }
+
+function xuLyHetHanToken(res) {
+    if (res.status === 401 || res.status === 403) {
+        thongBaoNhanh("Phiên đăng nhập hết hạn hoặc không có quyền Admin! Vui lòng đăng nhập lại.", 'error');
+        localStorage.removeItem('admin_token');
+        setTimeout(() => window.location.href = 'login.html', 1500);
+        return true;
+    }
+    return false;
+}
 
 // 1. TẢI DANH SÁCH THỂ LOẠI
 function taiDanhSachTheLoai() {
@@ -19,12 +29,13 @@ function taiDanhSachTheLoai() {
 
         // Đảo ngược mảng để thể loại mới thêm hiện lên đầu
         danhSach.reverse().forEach(tl => {
+            const tenAnToan = tl.tenTheLoai.replace(/'/g, "\\'");
             tbody.innerHTML += `
                 <tr>
                     <td><strong>${tl.id}</strong></td>
                     <td><span style="font-size: 16px; color: #3498db; font-weight: 500;">${tl.tenTheLoai}</span></td>
                     <td style="text-align: center;">
-                        <button class="btn-sua" onclick="suaTheLoai(${tl.id}, '${tl.tenTheLoai}')"><i class="fas fa-edit"></i> Sửa</button>
+                        <button class="btn-sua" onclick="suaTheLoai(${tl.id}, '${tenAnToan}')"><i class="fas fa-edit"></i> Sửa</button>
                         <button class="btn-xoa" onclick="xoaTheLoai(${tl.id})"><i class="fas fa-trash"></i> Xóa</button>
                     </td>
                 </tr>
@@ -82,13 +93,18 @@ window.luuTheLoai = function() {
         },
         body: JSON.stringify(dataGui)
     })
-    .then(res => res.json())
+    .then(res => {
+        if (xuLyHetHanToken(res)) return null;
+        if (!res.ok) throw new Error("Lỗi lưu thể loại (Mã lỗi: " + res.status + ")");
+        return res.json();
+    })
     .then(data => {
+        if (!data) return;
         thongBaoNhanh("Lưu thể loại thành công!", 'success');
         dongModalTheLoai();
         taiDanhSachTheLoai(); // Tải lại bảng ngay lập tức
     })
-    .catch(err => thongBaoNhanh("Lỗi hệ thống khi lưu thể loại!", 'error'));
+    .catch(err => thongBaoNhanh(err.message || "Lỗi hệ thống khi lưu thể loại!", 'error'));
 }
 
 // 4. XÓA THỂ LOẠI
@@ -100,12 +116,17 @@ window.xoaTheLoai = function(id) {
             method: 'DELETE',
             headers: { 'Authorization': `Bearer ${token}` }
         })
-        .then(res => res.text())
+        .then(res => {
+            if (xuLyHetHanToken(res)) return null;
+            if (!res.ok) throw new Error("Xóa thể loại thất bại!");
+            return res.text();
+        })
         .then(msg => {
+            if (!msg) return;
             thongBaoNhanh(msg, 'success'); 
             taiDanhSachTheLoai();
         })
-        .catch(err => thongBaoNhanh("Lỗi khi xóa thể loại!", 'error'));
+        .catch(err => thongBaoNhanh(err.message || "Lỗi khi xóa thể loại!", 'error'));
         
     });
 }
