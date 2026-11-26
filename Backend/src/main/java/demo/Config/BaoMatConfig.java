@@ -1,6 +1,7 @@
 package demo.Config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -29,8 +30,16 @@ public class BaoMatConfig {
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
+
+    // Tắt tự động đăng ký JwtFilter ở tầng Servlet (chỉ chạy đúng 1 lần trong SecurityFilterChain)
+    @Bean
+    public FilterRegistrationBean<JwtFilter> jwtFilterRegistration(JwtFilter filter) {
+        FilterRegistrationBean<JwtFilter> registration = new FilterRegistrationBean<>(filter);
+        registration.setEnabled(false);
+        return registration;
+    }
     
-    // CẤU HÌNH TRẠM HẢI QUAN (CORS)
+    // CẤU HÌNH TRẠM CORS
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
@@ -60,6 +69,10 @@ public class BaoMatConfig {
             // Không lưu Session trên server vì hệ thống dùng JWT
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
+            // Cho phép đường dẫn báo lỗi /error và preflight OPTIONS
+            .requestMatchers("/error").permitAll()
+            .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+
             // Cho phép thả tự do Đăng ký, Đăng nhập
             .requestMatchers("/v1/nguoi-dung/dang-ky", "/v1/nguoi-dung/dang-nhap", "/v1/nguoi-dung/google-login").permitAll()
             

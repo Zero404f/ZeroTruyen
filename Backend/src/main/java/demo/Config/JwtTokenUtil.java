@@ -44,6 +44,7 @@ public class JwtTokenUtil {
             Jwts.parserBuilder().setSigningKey(CHIA_KHOA_AN_TOAN).build().parseClaimsJws(token);
             return true;
         } catch (Exception e) {
+            System.out.println(">>> [JWT ERROR] Lý do token bị từ chối: " + e.getMessage());
             return false;
         }
     }

@@ -37,8 +37,10 @@ public class Truyen {
     @Column(columnDefinition = "TEXT") // Cho phép lưu mô tả dài vượt quá 255 ký tự
     private String moTaTruyen;
 
-    private Double diemTrungBinh; 
-    private Integer luotDanhGia;
+    @Builder.Default
+    private Double diemTrungBinh = 0.0; 
+    @Builder.Default
+    private Integer luotDanhGia = 0;
     @Builder.Default
     private Integer luotXem = 0;
     @Builder.Default
@@ -59,7 +61,7 @@ public class Truyen {
     @JsonIgnore 
     private List<Chuong> danhSachChuong;
 
-    // Tự động dọn dẹp dữ liệu liên quan khi xóa Truyện
+    // Tự động dọn dẹp dữ liệu liên quan khi xóa Truyện (tránh lỗi khóa ngoại)
     @OneToMany(mappedBy = "truyen", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<BinhLuan> danhSachBinhLuan;
